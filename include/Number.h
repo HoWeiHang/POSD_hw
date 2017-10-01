@@ -19,23 +19,24 @@ public:
     Number(int symbol, string typeName = "Number") : SimpleObject(typeName), _symbol(symbol) {}
     string symbol() const { return std::to_string(_symbol); }
     string value() { return _value; }
-    bool match(SimpleObject *simpleObject) {
-        Number *number = dynamic_cast<Number *>(simpleObject);
-        if (number) {
-            return std::to_string(_symbol) == number->symbol();
-        }
-        Variable *variable = dynamic_cast<Variable *>(simpleObject);
-        if (variable) {
-            bool matchSuccess = false;
-            if (variable->_isAssignable(this)) {
-                variable->setValue(std::to_string(_symbol));
-                _value = variable->symbol();
-                matchSuccess = true;
-            }
-            return matchSuccess;
-        }
-        return false;
-    }
+    void setValue(string value) { _value = value; }
+//    bool match(SimpleObject *simpleObject) {
+//        Number *number = dynamic_cast<Number *>(simpleObject);
+//        if (number) {
+//            return symbol() == number->symbol();
+//        }
+//        Variable *variable = dynamic_cast<Variable *>(simpleObject);
+//        if (variable) {
+//            bool matchSuccess = false;
+//            if (variable->_isAssignable(this)) {
+//                variable->setValue(symbol());
+//                _value = variable->symbol();
+//                matchSuccess = true;
+//            }
+//            return matchSuccess;
+//        }
+//        return false;
+//    }
 private:
     int const _symbol;
     string _value;

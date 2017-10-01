@@ -9,6 +9,7 @@
 #ifndef SimpleObject_h
 #define SimpleObject_h
 #include <string>
+
 using std::string;
 
 class SimpleObject {
@@ -17,7 +18,9 @@ public:
     string typeName() { return _typeName; }
     virtual string symbol() const = 0;
     virtual string value() = 0;
-    virtual bool match(SimpleObject *simpleObject) = 0;
+    virtual void setValue(string value) = 0;
+//    virtual bool match(SimpleObject *simpleObject) = 0;
+    bool match(SimpleObject *simpleObject);
 private:
     string const _typeName;
 };
