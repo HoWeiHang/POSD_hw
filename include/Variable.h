@@ -2,21 +2,19 @@
 #define VARIABLE_H
 
 #include <string>
-#include "Atom.h"
+#include "SimpleObject.h"
+
 using std::string;
 
-class Variable {
+class Variable : public SimpleObject {
 public:
-    Variable(string s):_symbol(s){}
-    string symbol() { return _symbol; }
+    Variable(string s, string typeName = "Variable") : SimpleObject(typeName), _symbol(s) {}
+    string symbol() const { return _symbol; }
 	string value() { return _value; }
-    bool match(Atom atom) {
-        bool matchSuccess = false;
-        if (_value == "" || _value == atom.symbol()) {
-            _value = atom.symbol() ;
-            matchSuccess = true;
-        }
-        return matchSuccess;
+    void setValue(string value) { _value = value; }
+    bool match(SimpleObject *simpleObject);
+    bool _isAssignable(SimpleObject *simpleObject) {
+        return (simpleObject->value() == "" && _value == "") || _symbol == simpleObject->value() || _value == simpleObject->symbol();
     }
 private:
     string const _symbol;
