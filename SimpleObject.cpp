@@ -8,6 +8,7 @@
 
 #include "include/SimpleObject.h"
 #include "include/Variable.h"
+#include <typeinfo>
 
 bool SimpleObject::match(SimpleObject *simpleObject) {
     Variable *variable = dynamic_cast<Variable *>(this);
