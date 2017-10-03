@@ -10,8 +10,8 @@ class Atom : public SimpleObject {
 public:
     Atom (string s, string typeName = "Atom") : SimpleObject(typeName), _symbol(s) {}
     string symbol() const { return _symbol; }
-    string value() { return _value; }
-    void setValue(string value) { _value = value; }
+    string value() { return _symbol; }
+//    void setValue(string value) { _value = value; }
 //    bool match(SimpleObject *simpleObject) {
 //        Atom *atom = dynamic_cast<Atom *>(simpleObject);
 //        if (atom) {
@@ -31,7 +31,7 @@ public:
 //    }
 private:
     string const _symbol;
-    string _value;
+//    string _value;
 };
 
 #endif

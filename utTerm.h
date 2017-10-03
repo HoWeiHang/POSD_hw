@@ -7,9 +7,7 @@
 //test Number.value()
 TEST (Number,ctor) {
     Number twentyFive(25);
-    Variable x("X");
-    twentyFive.match(x);
-    ASSERT_EQ("X", twentyFive.value());
+    ASSERT_EQ("25", twentyFive.value());
 }
 //test Number.symbol()
 TEST (Number, symbol) {
@@ -58,8 +56,8 @@ TEST (Atom, matchFailureDiffConstant) {
 TEST (Atom, matchSuccessToVar) {
     Atom tom("tom");
     Variable x("X");
-    tom.match(x);
-    ASSERT_EQ("X", tom.value());
+    ASSERT_TRUE(tom.match(x));
+    ASSERT_EQ("tom", x.value());
 }
 
 // ?- X=tom, tom=X.
@@ -87,7 +85,7 @@ TEST (Atom, matchFailureToVarInstantedToDiffConstant) {
 TEST (Var, matchSuccessToNumber) {
     Variable x("X");
     Number five(5);
-    x.match(five);
+    ASSERT_TRUE(x.match(five));
     ASSERT_EQ("5", x.value());
 }
 
@@ -119,7 +117,7 @@ TEST (Var, matchSuccessToAtomThenFailureToNumber2) {
     Variable x("X");
     Number twentyFive(25);
     tom.match(x);
-    ASSERT_EQ("X", tom.value());
+    ASSERT_EQ("tom", x.value());
     ASSERT_FALSE(twentyFive.match(x));
 }
 //?- X=tom, X=tom.

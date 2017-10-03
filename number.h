@@ -16,10 +16,10 @@ using std::string;
 
 class Number : public SimpleObject {
 public:
-    Number(int symbol, string typeName = "Number") : SimpleObject(typeName), _symbol(symbol) {}
-    string symbol() const { return std::to_string(_symbol); }
-    string value() { return _value; }
-    void setValue(string value) { _value = value; }
+    Number(int symbol, string typeName = "Number") : SimpleObject(typeName), _symbol(std::to_string(symbol)) {}
+    string symbol() const { return _symbol; }
+    string value() { return _symbol; }
+//    void setValue(string value) { _value = value; }
 //    bool match(SimpleObject *simpleObject) {
 //        Number *number = dynamic_cast<Number *>(simpleObject);
 //        if (number) {
@@ -38,8 +38,8 @@ public:
 //        return false;
 //    }
 private:
-    int const _symbol;
-    string _value;
+    string const _symbol;
+//    string _value;
 };
 
 #endif 

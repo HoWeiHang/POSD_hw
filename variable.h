@@ -14,7 +14,7 @@ public:
     void setValue(string value) { _value = value; }
 //    bool match(SimpleObject *simpleObject);
     bool _isAssignable(SimpleObject *simpleObject) {
-        return (simpleObject->value() == "" && _value == "") || _symbol == simpleObject->value() || _value == simpleObject->symbol();
+        return _value == "" || _value == simpleObject->symbol();
     }
 private:
     string const _symbol;
