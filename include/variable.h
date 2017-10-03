@@ -2,7 +2,7 @@
 #define VARIABLE_H
 
 #include <string>
-#include "SimpleObject.h"
+#include "simpleObject.h"
 
 using std::string;
 

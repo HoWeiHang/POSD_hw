@@ -1,8 +1,8 @@
 #ifndef ATOM_H
 #define ATOM_H
 #include <string>
-#include "SimpleObject.h"
-#include "Variable.h"
+#include "simpleObject.h"
+#include "variable.h"
 
 using std::string;
 

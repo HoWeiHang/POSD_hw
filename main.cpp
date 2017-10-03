@@ -7,7 +7,6 @@
 //
 
 #include <gtest/gtest.h>
-#include "utSort.h"
 #include "utAtom.h"
 #include "utVariable.h"
 #include "utTerm.h"
