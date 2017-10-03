@@ -11,13 +11,13 @@ endif
 	
 main.o: main.cpp utAtom.h utVariable.h utTerm.h
 	g++ -std=gnu++0x -c main.cpp
-SimpleObject.o: $(INC_DIR)/simpleObject.h SimpleObject.cpp
+SimpleObject.o: simpleObject.h SimpleObject.cpp
 	g++ -std=gnu++0x -c SimpleObject.cpp
-Atom.o: $(INC_DIR)/atom.h Atom.cpp
+Atom.o: atom.h Atom.cpp
 	g++ -std=gnu++0x -c Atom.cpp
-Variable.o: $(INC_DIR)/variable.h Variable.cpp
+Variable.o: variable.h Variable.cpp
 	g++ -std=gnu++0x -c Variable.cpp
-Number.o: $(INC_DIR)/Number.h Number.cpp
+Number.o: Number.h Number.cpp
 	g++ -std=gnu++0x -c number.cpp
 
 clean:	

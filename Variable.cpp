@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ｗillie. All rights reserved.
 //
 
-#include "include/variable.h"
-#include "include/atom.h"
-#include "include/number.h"
+#include "variable.h"
+#include "atom.h"
+#include "number.h"
 
 //bool Variable::match(SimpleObject *simpleObject) {
 //    Variable *variable = dynamic_cast<Variable *>(simpleObject);

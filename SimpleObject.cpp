@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ｗillie. All rights reserved.
 //
 
-#include "include/simpleObject.h"
-#include "include/variable.h"
+#include "simpleObject.h"
+#include "variable.h"
 #include <typeinfo> 
 
 bool SimpleObject::match(SimpleObject *simpleObject) {
