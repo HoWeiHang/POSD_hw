@@ -20,7 +20,7 @@ public:
     virtual string value() = 0;
     virtual void setValue(string value) = 0;
 //    virtual bool match(SimpleObject *simpleObject) = 0;
-    bool match(SimpleObject *simpleObject);
+    bool match(SimpleObject &simpleObject);
 private:
     string const _typeName;
 };
