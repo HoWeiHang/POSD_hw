@@ -12,7 +12,6 @@ public:
     string symbol() const { return _symbol; }
 	string value() { return _value; }
     void setValue(string value) { _value = value; }
-//    bool match(SimpleObject *simpleObject);
     bool _isAssignable(SimpleObject *simpleObject) {
         return _value == "" || _value == simpleObject->symbol();
     }

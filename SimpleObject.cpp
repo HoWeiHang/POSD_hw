@@ -16,21 +16,20 @@ bool SimpleObject::match(SimpleObject &simpleObject) {
     if (variable && variableCastFromSimpleObject) {
         return true;
     } else if (variable) {
-        bool matchSuccess = false;
-        if (variable->_isAssignable(&simpleObject)) {
-            variable->setValue(simpleObject.symbol());
-            matchSuccess = true;
-        }
-        return matchSuccess;
+        return isVariableMatchSuccess(variable, simpleObject);
     } else if (typeid(*this) == typeid(simpleObject)) {
         return symbol() == simpleObject.symbol();
     } else if (variableCastFromSimpleObject) {
-        bool matchSuccess = false;
-        if (variableCastFromSimpleObject->_isAssignable(this)) {
-            variableCastFromSimpleObject->setValue(symbol());
-            matchSuccess = true;
-        }
-        return matchSuccess;
+        return isVariableMatchSuccess(variableCastFromSimpleObject, *this);
     }
     return false;
+}
+
+bool SimpleObject::isVariableMatchSuccess(Variable *variable, SimpleObject &matchSimpleObject) {
+    bool matchSuccess = false;
+    if (variable->_isAssignable(&matchSimpleObject)) {
+        variable->setValue(matchSimpleObject.symbol());
+        matchSuccess = true;
+    }
+    return matchSuccess;
 }

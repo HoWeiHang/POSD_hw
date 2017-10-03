@@ -9,6 +9,7 @@
 #ifndef SimpleObject_h
 #define SimpleObject_h
 #include <string>
+class Variable;
 
 using std::string;
 
@@ -21,6 +22,7 @@ public:
     bool match(SimpleObject &simpleObject);
 private:
     string const _typeName;
+    bool isVariableMatchSuccess(Variable *variable, SimpleObject &matchSimpleObject);
 };
 
 #endif /* SimpleObject_h */
