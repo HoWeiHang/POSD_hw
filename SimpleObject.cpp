@@ -28,7 +28,6 @@ bool SimpleObject::match(SimpleObject &simpleObject) {
         bool matchSuccess = false;
         if (variableCastFromSimpleObject->_isAssignable(this)) {
             variableCastFromSimpleObject->setValue(symbol());
-//            setValue(variableCastFromSimpleObject->symbol());
             matchSuccess = true;
         }
         return matchSuccess;

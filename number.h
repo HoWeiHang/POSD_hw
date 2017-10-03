@@ -19,27 +19,8 @@ public:
     Number(int symbol, string typeName = "Number") : SimpleObject(typeName), _symbol(std::to_string(symbol)) {}
     string symbol() const { return _symbol; }
     string value() { return _symbol; }
-//    void setValue(string value) { _value = value; }
-//    bool match(SimpleObject *simpleObject) {
-//        Number *number = dynamic_cast<Number *>(simpleObject);
-//        if (number) {
-//            return symbol() == number->symbol();
-//        }
-//        Variable *variable = dynamic_cast<Variable *>(simpleObject);
-//        if (variable) {
-//            bool matchSuccess = false;
-//            if (variable->_isAssignable(this)) {
-//                variable->setValue(symbol());
-//                _value = variable->symbol();
-//                matchSuccess = true;
-//            }
-//            return matchSuccess;
-//        }
-//        return false;
-//    }
 private:
     string const _symbol;
-//    string _value;
 };
 
 #endif 
