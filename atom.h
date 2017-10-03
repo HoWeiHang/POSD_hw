@@ -2,7 +2,6 @@
 #define ATOM_H
 #include <string>
 #include "simpleObject.h"
-#include "variable.h"
 
 using std::string;
 

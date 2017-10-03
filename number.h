@@ -10,7 +10,6 @@
 #define Number_h
 #include <string>
 #include "simpleObject.h"
-#include "variable.h"
 
 using std::string;
 
