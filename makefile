@@ -9,7 +9,7 @@ else
 	g++ -o hw2 $^ -lgtest -lpthread
 endif
 	
-%.o: %.cpp
+*.o: *.cpp
 	g++ -std=gnu++0x -c $^
 
 clean:	
