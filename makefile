@@ -1,6 +1,6 @@
 .PHONY = all clean 
 
-all: clean hw2
+all: hw2
 
 hw2: *.o
 ifeq (${OS}, Windows_NT)
