@@ -15,7 +15,7 @@ using std::string;
 
 class Number : public SimpleObject {
 public:
-    Number(int symbol, string typeName = "Number") : SimpleObject(typeName), _symbol(std::to_string(symbol)) {}
+    Number(double value, string typeName = "Number") : SimpleObject(typeName), _symbol(std::to_string(value)) {}
     string symbol() const { return _symbol; }
     string value() { return _symbol; }
 private:
