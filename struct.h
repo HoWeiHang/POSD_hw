@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 #include "atom.h"
+#include "variable.h"
 #include <vector>
 #include <string>
 
@@ -31,14 +32,13 @@ public:
         return _name;
     }
     
-    bool match(SimpleObject &term) {
-        Struct * ps = dynamic_cast<Struct *>(&term);
-        if (ps){
-            if (!_name.match(ps->_name))
+    bool match(SimpleObject &simpleObject) {
+        Struct *ps = dynamic_cast<Struct *>(&simpleObject);
+        Variable *variable = dynamic_cast<Variable *>(&simpleObject);
+        if (ps) {
+            if (!_name.match(ps->_name) || _args.size() != ps->_args.size())
                 return false;
-            if(_args.size()!= ps->_args.size())
-                return false;
-            for(int i=0;i<_args.size();i++){
+            for(int i = 0; i < _args.size(); i++){
                 if(_args[i]->symbol() != ps->_args[i]->symbol())
                     return false;
             }

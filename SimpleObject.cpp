@@ -8,13 +8,16 @@
 
 #include "simpleObject.h"
 #include "variable.h"
-#include <typeinfo> 
+#include <typeinfo>
+#include <vector>
 
 bool SimpleObject::match(SimpleObject &simpleObject) {
     Variable *variable = dynamic_cast<Variable *>(this);
     Variable *variableCastFromSimpleObject = dynamic_cast<Variable *>(&simpleObject);
     if (variable && variableCastFromSimpleObject) {
-        return true;
+        variable->addMatchVariable(variableCastFromSimpleObject);
+        variableCastFromSimpleObject->addMatchVariable(variable);
+        return variable->isUpdateValueForMatchVariablesSuccess(variableCastFromSimpleObject->value(), variableCastFromSimpleObject) && variableCastFromSimpleObject->isUpdateValueForMatchVariablesSuccess(variable->value(), variable);
     } else if (variable) {
         return isVariableMatchSuccess(variable, simpleObject);
     } else if (typeid(*this) == typeid(simpleObject)) {
@@ -26,10 +29,16 @@ bool SimpleObject::match(SimpleObject &simpleObject) {
 }
 
 bool SimpleObject::isVariableMatchSuccess(Variable *variable, SimpleObject &matchSimpleObject) {
-    bool matchSuccess = false;
-    if (variable->_isAssignable(&matchSimpleObject)) {
-        variable->setValue(matchSimpleObject.symbol());
-        matchSuccess = true;
+    if (variable->isAssignable(&matchSimpleObject)) {
+        return variable->isUpdateValueForMatchVariablesSuccess(matchSimpleObject.symbol(), &matchSimpleObject);
+//        for (Variable *var : variable->matchVariables()) {
+//            if (!var->isAssignable(&matchSimpleObject)) {
+//                return false;
+//            }
+//            var->setValue(matchSimpleObject.symbol());
+//        }
+//        variable->setValue(matchSimpleObject.symbol());
+//        return true;
     }
-    return matchSuccess;
+    return false;
 }
