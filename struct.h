@@ -20,6 +20,7 @@ public:
     Struct(Atom const &name, std::vector<Term *> args, string typeName = "Struct") : Term(typeName), _name(name), _args(args) {
         setUpVariable();
         setUpStructure();
+        setUpTerm();
     }
     
     string symbol() {
@@ -49,6 +50,13 @@ public:
     
     string sa(StructComponent sc) {
         string returnString = _name.symbol() + "(";
+        for (Term *term : _termsWithoutStrucsAndVariables) {
+            if (_structs.empty() && _variables.empty()) {
+                returnString += term == _termsWithoutStrucsAndVariables.back() ? term->symbol() + ")" : term->symbol() + ", ";
+            } else {
+                returnString += term->symbol() + ", ";
+            }
+        }
         for (Struct *str : _structs) {
             if (_variables.empty() && str == _structs.back()) {
                 returnString += sc == StructComponentSymbol ? str->componentSymbol() + ")" : str->componentValue() + ")";
@@ -138,6 +146,16 @@ public:
             }
         }
     }
+    
+    void setUpTerm() {
+        for (Term *term : _args) {
+            Variable *var = dynamic_cast<Variable *>(term);
+            Struct *stru = dynamic_cast<Struct *>(term);
+            if (!stru && !var) {
+                _termsWithoutStrucsAndVariables.push_back(term);
+            }
+        }
+    }
 
     Term * args(int index) {
         return _args[index];
@@ -166,6 +184,7 @@ private:
     std::vector<Term *> _args;
     std::vector<Variable *> _variables;
     std::vector<Struct *> _structs;
+    std::vector<Term *> _termsWithoutStrucsAndVariables;
 };
 
 #endif
