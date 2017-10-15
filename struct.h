@@ -17,49 +17,27 @@ enum StructComponent {
 
 class Struct : public Term {
 public:
-    Struct(Atom const &name, std::vector<Term *> args, string typeName = "Struct") : Term(typeName), _name(name), _args(args) {}
-    
-//    string symbol() const {
-//        string ret =_name.symbol() + "(";
-//        for(int i = 0; i < _args.size() - 1 ; i++){
-//            ret += _args[i]-> symbol() + ", ";
-//        }
-//        ret += _args[_args.size()-1]-> symbol() + ")";
-//        return  ret;
-//    }
-    string symbol() {
-        return structureArchitecture(StructComponentSymbol);
+    Struct(Atom const &name, std::vector<Term *> args, string typeName = "Struct") : Term(typeName), _name(name), _args(args) {
+        setUpVariable();
+        setUpStructure();
     }
     
-//    string symbol() const {
-////        return structureArchitecture(StructComponentSymbol);
-//        return "fuck";
-//    }
+    string symbol() {
+        return sa(StructComponentSymbol);
+    }
     
     string value() {
-        return structureArchitecture(StructComponentValue);
+        return sa(StructComponentValue);
     }
     
-//    string structureArchitecture() {
-//        std::vector<Struct *> structVector;
-//        map<Struct *, Variable *> architectureMap;
-//        string returnString = _name.symbol() = "(";
-//        Struct *currentStruct = this;
-//        while (!currentStruct->variable() && !currentStruct->structure()) {
-//            if (currentStruct->variable()) {
-//                architectureMap.insert(pair<Struct *, Variable*>(currentStruct, currentStruct->variable()));
-//            }
-//            if (currentStruct->structure()) {
-//                structVector.push_back(currentStruct->structure());
-//                currentStruct = currentStruct->structure();
-//            }
-//        }
-//        for (Struct *structure : structVector) {
-//            if (structure->structure()) {
-//
-//            }
-//        }
-//    }
+    std::vector<Variable *> variables() {
+        return _variables;
+    }
+    
+    std::vector<Struct *> structs() {
+        return _structs;
+    }
+    
     string componentSymbol() {
         return _name.symbol() + "(" + variable()->symbol() + ")";
     }
@@ -69,30 +47,66 @@ public:
         return _name.symbol() + "(" + returnString + ")";
     }
     
+    string sa(StructComponent sc) {
+        string returnString = _name.symbol() + "(";
+        string structString = "";
+        string variableString = "";
+//        Struct *currentStruct = this;
+//        std::vector<Variable *> vv;
+//        std::vector<Struct *> sv;
+//        while (currentStruct->structure()) {
+//
+//        }
+        for (Struct *str : _structs) {
+            if (_variables.empty() && str == _structs.back()) {
+                returnString += sc == StructComponentSymbol ? str->componentSymbol() + ")" : str->componentValue() + ")";
+            } else {
+                returnString += sc == StructComponentSymbol ? str->componentSymbol() + ", " : str->componentValue() + ", ";
+            }
+        }
+        for (Variable *var : _variables) {
+            if (var == _variables.back()) {
+                returnString += sc == StructComponentSymbol ? var->symbol() + ")" : var->value() + ")";
+            } else {
+                returnString += sc == StructComponentSymbol ? var->symbol() + ", " : var->value() + ", ";
+            }
+//            returnString += var == _variables.back() ? var->symbol() + ")" : var->symbol() + ", ";
+        }
+        return returnString;
+    }
+    
     string structureArchitecture(StructComponent structComponent) {
         string returnString = _name.symbol() + "(";
         string structString = "";
         string variableString = "";
         Struct *currentStruct = this;
-        if (!currentStruct->structure() && currentStruct->variable()) {
+        if (currentStruct->structs().empty() && !currentStruct->variables().empty()) {
             return structComponent == StructComponentSymbol ? currentStruct->componentSymbol() : currentStruct->componentValue();
         }
         while (currentStruct->structure()) {
             if (currentStruct->structure() && currentStruct->variable()) {
                 if (currentStruct->structure()->structure()) {
-                    variableString = ", " + ((structComponent == StructComponentSymbol) ? currentStruct->variable()->symbol() : currentStruct->variable()->value()) + ")" + variableString;
+                    variableString = ", " + varString(structComponent, currentStruct) + ")" + variableString;
                 } else {
-                    variableString = ", " + ((structComponent == StructComponentSymbol) ? currentStruct->variable()->symbol() : currentStruct->variable()->value()) + variableString;
+                    variableString = ", " + varString(structComponent, currentStruct)  + variableString;
                 }
-                structString += structComponent == StructComponentSymbol ? currentStruct->structure()->componentSymbol() : currentStruct->structure()->componentValue();
+                structString += strString(structComponent, currentStruct);
                 currentStruct = currentStruct->structure();
             } else if (currentStruct->structure()) {
-                structString += structComponent == StructComponentSymbol ? currentStruct->structure()->componentSymbol() : currentStruct->structure()->componentValue();
+                structString += strString(structComponent, currentStruct);
                 currentStruct = currentStruct->structure();
             }
         }
         returnString += structString + variableString + ")";
         return returnString;
+    }
+    
+    string varString(StructComponent structComponent, Struct *currentStruct) {
+        return structComponent == StructComponentSymbol ? currentStruct->variable()->symbol() : currentStruct->variable()->value();
+    }
+    
+    string strString(StructComponent structComponent, Struct *currentStruct) {
+        return structComponent == StructComponentSymbol ? currentStruct->structure()->componentSymbol() : currentStruct->structure()->componentValue();
     }
     
     Variable *variable() {
@@ -113,6 +127,24 @@ public:
             }
         }
         return nullptr;
+    }
+    
+    void setUpVariable() {
+        for (Term *term : _args) {
+            Variable *var = dynamic_cast<Variable *>(term);
+            if (var) {
+                _variables.push_back(var);
+            }
+        }
+    }
+    
+    void setUpStructure() {
+        for (Term *term : _args) {
+            Struct *stru = dynamic_cast<Struct *>(term);
+            if (stru) {
+                _structs.push_back(stru);
+            }
+        }
     }
 
     Term * args(int index) {
@@ -140,6 +172,8 @@ public:
 private:
     Atom _name;
     std::vector<Term *> _args;
+    std::vector<Variable *> _variables;
+    std::vector<Struct *> _structs;
 };
 
 #endif

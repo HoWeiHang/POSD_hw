@@ -13,6 +13,9 @@ string Variable::value() {
     if (_matchStruct) {
         return _matchStruct->value();
     }
+    if (isAssignable(this) && _matchVariables.empty()) {
+        return _symbol;
+    }
     return _value;
 }
 
@@ -24,7 +27,9 @@ bool Variable::isUpdateValueForMatchVariablesSuccess (string value, Term *term) 
         }
         var->setValue(value);
     }
-    setValue(value);
+    if (isAssignable(term) && term != this) {
+        setValue(value);
+    }
     return true;
 }
 
