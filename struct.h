@@ -49,14 +49,6 @@ public:
     
     string sa(StructComponent sc) {
         string returnString = _name.symbol() + "(";
-        string structString = "";
-        string variableString = "";
-//        Struct *currentStruct = this;
-//        std::vector<Variable *> vv;
-//        std::vector<Struct *> sv;
-//        while (currentStruct->structure()) {
-//
-//        }
         for (Struct *str : _structs) {
             if (_variables.empty() && str == _structs.back()) {
                 returnString += sc == StructComponentSymbol ? str->componentSymbol() + ")" : str->componentValue() + ")";
