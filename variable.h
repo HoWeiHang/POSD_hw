@@ -29,7 +29,7 @@ public:
         setValue(value);
         return true;
     }
-//    void serMatchVariables(vector<Variable *> matchVariables) { _matchVariables = matchVariables; }
+    
     vector<Variable *> *matchVariables() { return &_matchVariables; }
     
     string printMatchVariables() {
@@ -61,36 +61,6 @@ public:
             }
         }
     }
-    /*
-    void addMatchVariable(Variable *variable) {
-        if (!isExistInVectors(variable) && symbol() != variable->symbol()) {
-            _matchVariables.push_back(variable);
-        }
-        for (Variable *var : _matchVariables) {
-            if (!var->isExistInVectors(variable) && var->symbol() != variable->symbol()) {
-                var->matchVariables()->push_back(variable);
-            }
-//            for (Variable *var : *(var->matchVariables())) {
-//                if (!isExistInVectors(var) && _symbol != var->symbol()) {
-//                    _matchVariables.push_back(var);
-//                }
-//            }
-//            if (!variable->isExistInVectors(var) && var->symbol() != variable->symbol()) {
-//                variable->matchVariables()->push_back(var);
-//            }
-        }
-        for (Variable *var : *(variable->matchVariables())) {
-            if (!var->isExistInVectors(this) && var->symbol() != _symbol) {
-                var->matchVariables()->push_back(this);
-            }
-            if (!isExistInVectors(var) && _symbol != var->symbol()) {
-                _matchVariables.push_back(var);
-            }
-        }
-//        for (Variable *var : *(variable->matchVariables())) {
-//            var->matchVariables()->assign(var->matchVariables()->begin(), var->matchVariables()->end());
-//        }
-    } */
     
     bool isExistInVectors(Variable *variable) {
         bool isExist = false;

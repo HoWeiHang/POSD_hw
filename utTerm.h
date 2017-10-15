@@ -7,14 +7,12 @@
 //test Number.value()
 TEST (Number,ctor) {
     Number twentyFive(25);
-    double expect = 25;
-    ASSERT_EQ(std::to_string(expect), twentyFive.value());
+    ASSERT_EQ("25", twentyFive.value());
 }
 //test Number.symbol()
 TEST (Number, symbol) {
     Number one(1);
-    double expect = 1;
-    EXPECT_EQ(std::to_string(expect), one.symbol());
+    EXPECT_EQ("1", one.symbol());
 }
 //?- 25=25.
 //true.
@@ -87,9 +85,8 @@ TEST (Atom, matchFailureToVarInstantedToDiffConstant) {
 TEST (Variable, matchSuccessToNumber) {
     Variable x("X");
     Number five(5);
-    double expect = 5;
     ASSERT_TRUE(x.match(five));
-    ASSERT_EQ(std::to_string(expect), x.value());
+    ASSERT_EQ("5", x.value());
 }
 
 // ?- X=25, X= 100.
@@ -99,8 +96,7 @@ TEST (Variable, matchFailureToTwoDiffNumbers) {
     Number twentyFive(25);
     Number hundred(100);
     x.match(twentyFive);
-    double expect = 25;
-    ASSERT_EQ(std::to_string(expect), x.value());
+    ASSERT_EQ("25", x.value());
     ASSERT_FALSE(x.match(hundred));
 }
 
