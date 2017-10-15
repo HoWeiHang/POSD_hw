@@ -29,6 +29,7 @@ public:
     }
     
     bool isUpdateValueForMatchVariablesSuccess(string value, Term *term);
+    bool isUpdateValueForMatchVariablesSuccess(string value);
     
 //    bool isUpdateValueForMatchVariablesSuccess(string value, SimpleObject *simpleObject) {
 //        Variable *variable = dynamic_cast<Variable *>(simpleObject);
@@ -55,7 +56,29 @@ public:
         return toString;
     }
     
+    bool isAssignable(Term *term, string value) {
+        //        Variable *variable = dynamic_cast<Variable *>(term);
+        //        if (variable) {
+        //            return true;
+        //        }
+        for (Variable *var : _matchVariables) {
+            if (_value == var->symbol()) {
+                return true;
+            }
+        }
+        return _value == "" || _value == term->symbol() || _value == value;
+    }
+    
     bool isAssignable(Term *term) {
+//        Variable *variable = dynamic_cast<Variable *>(term);
+//        if (variable) {
+//            return true;
+//        }
+        for (Variable *var : _matchVariables) {
+            if (_value == var->symbol()) {
+                return true;
+            }
+        }
         return _value == "" || _value == term->symbol();
     }
     

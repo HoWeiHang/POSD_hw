@@ -16,6 +16,9 @@ string Variable::value() {
     if (isAssignable(this) && _matchVariables.empty()) {
         return _symbol;
     }
+    if (_value.empty()) {
+        return _symbol;
+    }
     return _value;
 }
 
@@ -30,6 +33,17 @@ bool Variable::isUpdateValueForMatchVariablesSuccess (string value, Term *term) 
     if (isAssignable(term) && term != this) {
         setValue(value);
     }
+    return true;
+}
+
+bool Variable::isUpdateValueForMatchVariablesSuccess (string value) {
+    if (!isAssignable(this, value)) {
+        return false;
+    }
+    for (Variable *var : _matchVariables) {
+        var->setValue(value);
+    }
+    setValue(value);
     return true;
 }
 
