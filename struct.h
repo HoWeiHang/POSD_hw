@@ -31,10 +31,10 @@ public:
         return structureArchitecture(StructComponentSymbol);
     }
     
-    string symbol() const {
-//        return structureArchitecture(StructComponentSymbol);
-        return "fuck";
-    }
+//    string symbol() const {
+////        return structureArchitecture(StructComponentSymbol);
+//        return "fuck";
+//    }
     
     string value() {
         return structureArchitecture(StructComponentValue);
@@ -60,7 +60,7 @@ public:
 //            }
 //        }
 //    }
-    string componentSymbol() const {
+    string componentSymbol() {
         return _name.symbol() + "(" + variable()->symbol() + ")";
     }
     
@@ -95,7 +95,7 @@ public:
         return returnString;
     }
     
-    Variable *variable() const {
+    Variable *variable() {
         for (SimpleObject *simpleObject : _args) {
             Variable *var = dynamic_cast<Variable *>(simpleObject);
             if (var) {
@@ -119,7 +119,7 @@ public:
         return _args[index];
     }
 
-    Atom const &name() {
+    Atom &name() {
         return _name;
     }
     

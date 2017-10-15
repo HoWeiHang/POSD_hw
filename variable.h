@@ -5,30 +5,45 @@
 #include <vector>
 #include "simpleObject.h"
 
+class Struct;
+
 using std::string;
 using std::vector;
 
 class Variable : public SimpleObject {
 public:
     Variable(string s, string typeName = "Variable") : SimpleObject(typeName), _symbol(s) {}
-    string symbol() const { return _symbol; }
-	string value() { return _value; }
+    string symbol() { return _symbol; }
+    string value();
     
     void setValue(string value) {
         _value = value;
     }
     
-    bool isUpdateValueForMatchVariablesSuccess (string value, SimpleObject *simpleObject) {
-        Variable *variable = dynamic_cast<Variable *>(simpleObject);
-        for (Variable *var : _matchVariables) {
-            if (!var->isAssignable(simpleObject) && !variable) {
-                return false;
-            }
-            var->setValue(value);
-        }
-        setValue(value);
-        return true;
+    Struct *matchStruct() {
+        return _matchStruct;
     }
+    
+    void setMatchStruct(Struct *structure) {
+        _matchStruct = structure;
+    }
+    
+    bool isUpdateValueForMatchVariablesSuccess(string value, SimpleObject *simpleObject);
+    
+//    bool isUpdateValueForMatchVariablesSuccess(string value, SimpleObject *simpleObject) {
+//        Variable *variable = dynamic_cast<Variable *>(simpleObject);
+//        for (Variable *var : _matchVariables) {
+//            if (!var->isAssignable(simpleObject) && !variable) {
+//                return false;
+//            }
+//            var->setValue(value);
+//        }
+//        if (_matchStruct) {
+//            _matchStruct->variable()->setValue(value);
+//        }
+//        setValue(value);
+//        return true;
+//    }
     
     vector<Variable *> *matchVariables() { return &_matchVariables; }
     
@@ -74,6 +89,7 @@ public:
 private:
     string const _symbol;
     string _value;
+    Struct *_matchStruct = nullptr;
     vector<Variable *> _matchVariables;
 };
 

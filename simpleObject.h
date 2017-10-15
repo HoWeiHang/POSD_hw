@@ -17,7 +17,7 @@ class SimpleObject {
 public:
     SimpleObject(string typeName) : _typeName(typeName) {}
     string typeName() { return _typeName; }
-    virtual string symbol() const = 0;
+    virtual string symbol() = 0;
     virtual string value() = 0;
     bool match(SimpleObject &simpleObject);
 private:

@@ -16,7 +16,7 @@ using std::string;
 class Number : public SimpleObject {
 public:
     Number(double value, string typeName = "Number") : SimpleObject(typeName), _symbol(doubleToString(value)) {}
-    string symbol() const { return _symbol; }
+    string symbol() { return _symbol; }
     string value() { return _symbol; }
     
     static std::string doubleToString(double d) {

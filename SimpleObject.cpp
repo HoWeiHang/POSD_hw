@@ -22,7 +22,11 @@ bool SimpleObject::match(SimpleObject &simpleObject) {
         return variable->isUpdateValueForMatchVariablesSuccess(variableCastFromSimpleObject->value(), variableCastFromSimpleObject) && variableCastFromSimpleObject->isUpdateValueForMatchVariablesSuccess(variable->value(), variable);
     } else if (variable) {
         if (structCastFromSimpleObject) {
-            variable->isUpdateValueForMatchVariablesSuccess(structCastFromSimpleObject->symbol(), &simpleObject);
+//            if (structCastFromSimpleObject->variable()) {
+//                variable->match(*structCastFromSimpleObject->variable());
+//            }
+            variable->setMatchStruct(structCastFromSimpleObject);
+//            return variable->isVariableMatchSuccess(variable, simpleObject);
         }
         return isVariableMatchSuccess(variable, simpleObject);
     } else if (typeid(*this) == typeid(simpleObject)) {
