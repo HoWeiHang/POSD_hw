@@ -9,7 +9,7 @@ TEST(Struct, hobby)
 {
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse};
+    std::vector<Term *> v = {&tom, &chaseMouse};
     Struct hobby(Atom("hobby"), v);
     ASSERT_EQ("hobby", hobby.name().symbol());
     ASSERT_EQ("tom", hobby.args(0)->symbol());
@@ -22,7 +22,7 @@ TEST(Struct, symbol)
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
     Variable X("X");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse, &X};
+    std::vector<Term *> v = {&tom, &chaseMouse, &X};
     Struct s(Atom("s"), v);
     ASSERT_EQ("s(X)", s.symbol());
 }
@@ -31,7 +31,7 @@ TEST(Struct, match1)
 {
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse};
+    std::vector<Term *> v = {&tom, &chaseMouse};
     Struct hobby(Atom("hobby"), v);
     Struct hobby2(Atom("hobby2"), v);
     EXPECT_FALSE(hobby.match(hobby2));
@@ -40,9 +40,9 @@ TEST(Struct, match1)
 TEST(Struct, match2){
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse};
+    std::vector<Term *> v = {&tom, &chaseMouse};
     Struct hobby(Atom("hobby"), v);
-    std::vector<SimpleObject *> v1 = {&tom};
+    std::vector<Term *> v1 = {&tom};
     Struct hobby2(Atom("hobby"), v1);
     EXPECT_FALSE(hobby.match(hobby2));
 }
@@ -50,9 +50,9 @@ TEST(Struct, match2){
 TEST(Struct, match3){
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse};
+    std::vector<Term *> v = {&tom, &chaseMouse};
     Struct hobby(Atom("hobby"), v);
-    std::vector<SimpleObject *> v1 = { &chaseMouse,&tom};
+    std::vector<Term *> v1 = { &chaseMouse,&tom};
     Struct hobby2(Atom("hobby"), v1);
     EXPECT_FALSE(hobby.match(hobby2));
 }
@@ -61,7 +61,7 @@ TEST(Struct, match4)
 {
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse};
+    std::vector<Term *> v = {&tom, &chaseMouse};
     Struct hobby(Atom("hobby"), v);
     Struct hobby2(Atom("hobby"), v);
     EXPECT_TRUE(hobby.match(hobby2));
@@ -71,7 +71,7 @@ TEST(Struct, match5)
 {
     Atom tom("tom");
     Atom chaseMouse("chaseMouse");
-    std::vector<SimpleObject *> v = {&tom, &chaseMouse};
+    std::vector<Term *> v = {&tom, &chaseMouse};
     Struct hobby(Atom("hobby"), v);
     EXPECT_FALSE(hobby.match(tom));
 }
@@ -82,7 +82,7 @@ TEST(Struct, match5)
 TEST(Struct, var)
 {
     Variable X("X");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s(Atom("s"), v);
     ASSERT_EQ("s(X)", s.symbol());
     ASSERT_EQ("s(X)", s.value());
@@ -95,7 +95,7 @@ TEST(Struct, var)
 TEST(Struct, var_match_atom)
 {
     Variable X("X");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s(Atom("s"), v);
     Atom tom("tom");
     X.match(tom);
@@ -111,9 +111,9 @@ TEST(Struct, var_match_atom)
 TEST(Struct, nested_struct1)
 {
     Variable X("X");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s2(Atom("s2"), v);
-    std::vector<SimpleObject *> v2 = {&s2};
+    std::vector<Term *> v2 = {&s2};
     Struct s1(Atom("s1"), v2);
     ASSERT_EQ("s1(s2(X))", s1.symbol());
     ASSERT_EQ("s1(s2(X))", s1.value());
@@ -127,9 +127,9 @@ TEST(Struct, nested_struct1)
 TEST(Struct, nested_struct2)
 {
     Variable X("X");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s2(Atom("s2"), v);
-    std::vector<SimpleObject *> v2 = {&s2};
+    std::vector<Term *> v2 = {&s2};
     Struct s1(Atom("s1"), v2);
     Atom tom("tom");
     X.match(tom);
@@ -145,9 +145,9 @@ TEST(Struct, nested_struct2)
 TEST(Struct, nested_struct3)
 {
     Variable X("X");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s2(Atom("s2"), v);
-    std::vector<SimpleObject *> v2 = {&s2};
+    std::vector<Term *> v2 = {&s2};
     Struct s1(Atom("s1"), v2);
     Number pi = 3.14;
     X.match(pi);
@@ -165,9 +165,9 @@ TEST(Struct, nested_struct_and_multiVariable)
 {
     Variable X("X");
     Variable Y("Y");
-    std::vector<SimpleObject *> v = {&Y};
+    std::vector<Term *> v = {&Y};
     Struct s2(Atom("s2"), v);
-    std::vector<SimpleObject *> v2 = {&s2, &X};
+    std::vector<Term *> v2 = {&s2, &X};
     Struct s1(Atom("s1"), v2);
     Atom kent_beck("kent_beck");
     X.match(Y);

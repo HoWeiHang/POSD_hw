@@ -15,9 +15,9 @@ enum StructComponent {
     StructComponentValue
 };
 
-class Struct : public SimpleObject {
+class Struct : public Term {
 public:
-    Struct(Atom const &name, std::vector<SimpleObject *> args, string typeName = "Struct") : SimpleObject(typeName), _name(name), _args(args) {}
+    Struct(Atom const &name, std::vector<Term *> args, string typeName = "Struct") : Term(typeName), _name(name), _args(args) {}
     
 //    string symbol() const {
 //        string ret =_name.symbol() + "(";
@@ -96,8 +96,8 @@ public:
     }
     
     Variable *variable() {
-        for (SimpleObject *simpleObject : _args) {
-            Variable *var = dynamic_cast<Variable *>(simpleObject);
+        for (Term *term : _args) {
+            Variable *var = dynamic_cast<Variable *>(term);
             if (var) {
                 return var;
             }
@@ -106,8 +106,8 @@ public:
     }
     
     Struct *structure() {
-        for (SimpleObject *simpleObject : _args) {
-            Struct *stru = dynamic_cast<Struct *>(simpleObject);
+        for (Term *term : _args) {
+            Struct *stru = dynamic_cast<Struct *>(term);
             if (stru) {
                 return stru;
             }
@@ -115,7 +115,7 @@ public:
         return nullptr;
     }
 
-    SimpleObject * args(int index) {
+    Term * args(int index) {
         return _args[index];
     }
 
@@ -123,9 +123,9 @@ public:
         return _name;
     }
     
-    bool match(SimpleObject &simpleObject) {
-        Struct *ps = dynamic_cast<Struct *>(&simpleObject);
-        Variable *variable = dynamic_cast<Variable *>(&simpleObject);
+    bool match(Term &term) {
+        Struct *ps = dynamic_cast<Struct *>(&term);
+        Variable *variable = dynamic_cast<Variable *>(&term);
         if (ps) {
             if (!_name.match(ps->_name) || _args.size() != ps->_args.size())
                 return false;
@@ -139,7 +139,7 @@ public:
     }
 private:
     Atom _name;
-    std::vector<SimpleObject *> _args;
+    std::vector<Term *> _args;
 };
 
 #endif

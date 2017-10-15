@@ -3,16 +3,16 @@
 
 #include <string>
 #include <vector>
-#include "simpleObject.h"
+#include "term.h"
 
 class Struct;
 
 using std::string;
 using std::vector;
 
-class Variable : public SimpleObject {
+class Variable : public Term {
 public:
-    Variable(string s, string typeName = "Variable") : SimpleObject(typeName), _symbol(s) {}
+    Variable(string s, string typeName = "Variable") : Term(typeName), _symbol(s) {}
     string symbol() { return _symbol; }
     string value();
     
@@ -28,7 +28,7 @@ public:
         _matchStruct = structure;
     }
     
-    bool isUpdateValueForMatchVariablesSuccess(string value, SimpleObject *simpleObject);
+    bool isUpdateValueForMatchVariablesSuccess(string value, Term *term);
     
 //    bool isUpdateValueForMatchVariablesSuccess(string value, SimpleObject *simpleObject) {
 //        Variable *variable = dynamic_cast<Variable *>(simpleObject);
@@ -55,8 +55,8 @@ public:
         return toString;
     }
     
-    bool isAssignable(SimpleObject *simpleObject) {
-        return _value == "" || _value == simpleObject->symbol();
+    bool isAssignable(Term *term) {
+        return _value == "" || _value == term->symbol();
     }
     
     void addMatchVariable(Variable *variable) {

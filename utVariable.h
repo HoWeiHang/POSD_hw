@@ -115,7 +115,7 @@ TEST (Variable, num1_to_varZ_to_varX_and_varY_to_varX) {
 TEST (Variable, Struct1) {
     Variable X("X");
     Variable Y("Y");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s(Atom("s"), v);
     Y.match(s);
     ASSERT_EQ("Y", Y.symbol());
@@ -131,7 +131,7 @@ TEST (Variable, Struct1) {
 TEST (Variable, Struct2) {
     Variable X("X");
     Variable Y("Y");
-    std::vector<SimpleObject *> v = {&X};
+    std::vector<Term *> v = {&X};
     Struct s(Atom("s"), v);
     Y.match(s);
     Atom teddy("teddy");

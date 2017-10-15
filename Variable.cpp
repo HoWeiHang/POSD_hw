@@ -16,10 +16,10 @@ string Variable::value() {
     return _value;
 }
 
-bool Variable::isUpdateValueForMatchVariablesSuccess (string value, SimpleObject *simpleObject) {
-    Variable *variable = dynamic_cast<Variable *>(simpleObject);
+bool Variable::isUpdateValueForMatchVariablesSuccess (string value, Term *term) {
+    Variable *variable = dynamic_cast<Variable *>(term);
     for (Variable *var : _matchVariables) {
-        if (!var->isAssignable(simpleObject) && !variable) {
+        if (!var->isAssignable(term) && !variable) {
             return false;
         }
         var->setValue(value);
