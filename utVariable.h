@@ -140,16 +140,4 @@ TEST (Variable, Struct2) {
     ASSERT_EQ("s(teddy)", Y.value());
 }
 
-//*********************************************************
-TEST (Variable, test) {
-    Variable X("X");
-    Variable Y("Y");
-    Number one(1);
-    X.match(Y);
-    ASSERT_EQ("Y", X.value());
-    X.match(one);
-    ASSERT_EQ("1", Y.value());
-}
-//*********************************************************
-
 #endif

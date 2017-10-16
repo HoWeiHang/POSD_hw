@@ -9,11 +9,13 @@ TEST (Number,ctor) {
     Number twentyFive(25);
     ASSERT_EQ("25", twentyFive.value());
 }
+
 //test Number.symbol()
 TEST (Number, symbol) {
     Number one(1);
     EXPECT_EQ("1", one.symbol());
 }
+
 //?- 25=25.
 //true.
 TEST (Number, matchSuccess) {
@@ -21,6 +23,7 @@ TEST (Number, matchSuccess) {
     Number secondTwentyFive(25);
     ASSERT_TRUE(firstTwentyFive.match(secondTwentyFive));
 }
+
 //?- 25=0.
 //false.
 TEST (Number, matchFailureDiffValue) {
@@ -28,6 +31,7 @@ TEST (Number, matchFailureDiffValue) {
     Number zero(0);
     ASSERT_FALSE(twentyFive.match(zero));
 }
+
 //?- 25=tom.
 //false.
 TEST (Number, matchFailureDiffConstant) {
@@ -35,6 +39,7 @@ TEST (Number, matchFailureDiffConstant) {
     Atom tom("tom");
     ASSERT_FALSE(twentyFive.match(tom));
 }
+
 //?- 25=X.
 //true.
 TEST (Number, matchSuccessToVar) {
@@ -110,6 +115,7 @@ TEST (Variable, matchSuccessToAtomThenFailureToNumber) {
     ASSERT_EQ("tom", x.value());
     ASSERT_FALSE(x.match(twentyFive));
 }
+
 //?- tom=X, 25=X.
 //false.
 TEST (Variable, matchSuccessToAtomThenFailureToNumber2) {
@@ -120,6 +126,7 @@ TEST (Variable, matchSuccessToAtomThenFailureToNumber2) {
     ASSERT_EQ("tom", x.value());
     ASSERT_FALSE(twentyFive.match(x));
 }
+
 //?- X=tom, X=tom.
 //true.
 TEST(Variable, reAssignTheSameAtom){
@@ -128,4 +135,5 @@ TEST(Variable, reAssignTheSameAtom){
     ASSERT_TRUE(x.match(tom));
     ASSERT_TRUE(x.match(tom));
 }
+
 #endif

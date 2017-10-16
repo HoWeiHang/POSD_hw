@@ -17,7 +17,6 @@ bool Term::match(Term &term) {
     Variable *variableCastFromTerm = dynamic_cast<Variable *>(&term);
     Struct *structCastFromTerm = dynamic_cast<Struct *>(&term);
     if (variable && variableCastFromTerm) {
-        variable->setValue(variableCastFromTerm->symbol());
         variable->addMatchVariable(variableCastFromTerm);
         variableCastFromTerm->addMatchVariable(variable);
         return variable->isUpdateValueForMatchVariablesSuccess(variableCastFromTerm->value());
@@ -30,13 +29,6 @@ bool Term::match(Term &term) {
         return symbol() == term.symbol();
     } else if (variableCastFromTerm) {
         return isVariableMatchSuccess(*this, variableCastFromTerm);
-    }
-    return false;
-}
-
-bool Term::isVariableMatchSuccess(Variable *variable, Term &matchTerm) {
-    if (variable->isAssignable(&matchTerm)) {
-        return variable->isUpdateValueForMatchVariablesSuccess(matchTerm.symbol(), &matchTerm);
     }
     return false;
 }

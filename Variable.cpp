@@ -13,27 +13,10 @@ string Variable::value() {
     if (_matchStruct) {
         return _matchStruct->value();
     }
-    if (isAssignable(this) && _matchVariables.empty()) {
-        return _symbol;
-    }
-    if (_value.empty()) {
+    if ((isAssignable(this, "") && _matchVariables.empty()) || _value.empty()) {
         return _symbol;
     }
     return _value;
-}
-
-bool Variable::isUpdateValueForMatchVariablesSuccess (string value, Term *term) {
-    Variable *variable = dynamic_cast<Variable *>(term);
-    for (Variable *var : _matchVariables) {
-        if (!var->isAssignable(term) && !variable) {
-            return false;
-        }
-        var->setValue(value);
-    }
-    if (isAssignable(term) && term != this) {
-        setValue(value);
-    }
-    return true;
 }
 
 bool Variable::isUpdateValueForMatchVariablesSuccess (string value) {

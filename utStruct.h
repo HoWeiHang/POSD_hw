@@ -175,29 +175,6 @@ TEST(Struct, nested_struct_and_multiVariable)
     ASSERT_EQ("s1(s2(Y), X)", s1.symbol());
     ASSERT_EQ("s1(s2(kent_beck), kent_beck)", s1.value());
 }
-//************************
-TEST(Struct, struct4) {
-    Variable X("X");
-    std::vector<Term *> v = {&X};
-    Struct s2(Atom("s2"), v);
-    Struct s3(Atom("s3"), v);
-    std::vector<Term *> v2 = {&s2, &s3};
-    Struct s1(Atom("s1"), v2);
-    ASSERT_EQ("s1(s2(X), s3(X))", s1.symbol());
-}
-
-TEST(Struct, test1) {
-    Variable X("X");
-    std::vector<Term *> v = {&X};
-    Struct s1(Atom("s1"), v);
-    Atom erich_gamma("erich_gamma");
-    std::vector<Term *> v2 = {&erich_gamma};
-    Struct s2(Atom("s2"), v2);
-    X.match(s2);
-    ASSERT_EQ("s1(s2(erich_gamma))", s1.value());
-    
-}
-//************************
 
 #endif
 

@@ -100,40 +100,6 @@ public:
         return _name.symbol() + "(" + returnString + ")";
     }
     
-//    string structureArchitecture(StructComponent structComponent) {
-//        string returnString = _name.symbol() + "(";
-//        string structString = "";
-//        string variableString = "";
-//        Struct *currentStruct = this;
-//        if (currentStruct->structs().empty() && !currentStruct->variables().empty()) {
-//            return structComponent == StructComponentSymbol ? currentStruct->componentSymbol() : currentStruct->componentValue();
-//        }
-//        while (currentStruct->structure()) {
-//            if (currentStruct->structure() && currentStruct->variable()) {
-//                if (currentStruct->structure()->structure()) {
-//                    variableString = ", " + varString(structComponent, currentStruct) + ")" + variableString;
-//                } else {
-//                    variableString = ", " + varString(structComponent, currentStruct)  + variableString;
-//                }
-//                structString += strString(structComponent, currentStruct);
-//                currentStruct = currentStruct->structure();
-//            } else if (currentStruct->structure()) {
-//                structString += strString(structComponent, currentStruct);
-//                currentStruct = currentStruct->structure();
-//            }
-//        }
-//        returnString += structString + variableString + ")";
-//        return returnString;
-//    }
-    
-//    string varString(StructComponent structComponent, Struct *currentStruct) {
-//        return structComponent == StructComponentSymbol ? currentStruct->variable()->symbol() : currentStruct->variable()->value();
-//    }
-//
-//    string strString(StructComponent structComponent, Struct *currentStruct) {
-//        return structComponent == StructComponentSymbol ? currentStruct->structure()->componentSymbol() : currentStruct->structure()->componentValue();
-//    }
-    
     Variable *variable() {
         if (!variables().empty()) {
             return variables().front();

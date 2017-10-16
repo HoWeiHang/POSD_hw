@@ -22,7 +22,6 @@ public:
     bool match(Term &term);
 private:
     string const _typeName;
-    bool isVariableMatchSuccess(Variable *variable, Term &matchTerm);
     bool isVariableMatchSuccess(Term &matchTerm, Variable *variable);
 };
 
