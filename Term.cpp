@@ -21,20 +21,15 @@ bool Term::match(Term &term) {
         variable->addMatchVariable(variableCastFromTerm);
         variableCastFromTerm->addMatchVariable(variable);
         return variable->isUpdateValueForMatchVariablesSuccess(variableCastFromTerm->value());
-//        return variable->isUpdateValueForMatchVariablesSuccess(variableCastFromTerm->value(), variableCastFromTerm) && variableCastFromTerm->isUpdateValueForMatchVariablesSuccess(variable->value(), variable);
     } else if (variable) {
         if (structCastFromTerm) {
-//            if (structCastFromSimpleObject->variable()) {
-//                variable->match(*structCastFromSimpleObject->variable());
-//            }
             variable->setMatchStruct(structCastFromTerm);
-//            return variable->isVariableMatchSuccess(variable, simpleObject);
         }
         return isVariableMatchSuccess(term, variable);
     } else if (typeid(*this) == typeid(term)) {
         return symbol() == term.symbol();
     } else if (variableCastFromTerm) {
-        return isVariableMatchSuccess(variableCastFromTerm, *this);
+        return isVariableMatchSuccess(*this, variableCastFromTerm);
     }
     return false;
 }
