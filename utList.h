@@ -208,11 +208,9 @@ TEST(List, headAndTailMatching3) {
 // H = third, T = [].
 TEST(List, headAndTailMatching4) {
     Atom f("first"), s("second"), t("third");
-    vector<Term *> argsForLastList = {&t};
-    List lastList(argsForLastList);
-    vector<Term *> args = {&f, &s, &lastList};
+    vector<Term *> args = {&f, &s, &t};
     List l(args);
-    ASSERT_EQ("[third]", l.tail()->tail()->head()->symbol());
+    ASSERT_EQ("third", l.tail()->tail()->head()->symbol());
     ASSERT_EQ("[]", l.tail()->tail()->tail()->value());
 }
  
