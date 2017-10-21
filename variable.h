@@ -2,90 +2,38 @@
 #define VARIABLE_H
 
 #include <string>
-#include <vector>
-#include "term.h"
-
-class Struct;
+#include <typeinfo>
+#include "atom.h"
+#include "list.h"
 
 using std::string;
-using std::vector;
 
 class Variable : public Term {
 public:
-    Variable(string s, string typeName = "Variable") : Term(typeName), _symbol(s) {}
-    string symbol() {
-        return _symbol;
+    Variable(string s):Term(s), _inst(0){}
+    
+    string value() const {
+        if (_inst)
+            return _inst->value();
+        else
+            return Term::value();
     }
     
-    string value();
-    
-    void setValue(string value) {
-        _value = value;
-    }
-    
-    bool isUpdateValueForMatchVariablesSuccess(string value);
-    
-    Struct *matchStruct() {
-        return _matchStruct;
-    }
-    
-    void setMatchStruct(Struct *structure) {
-        _matchStruct = structure;
-    }
-    
-    vector<Variable *> *matchVariables() {
-        return &_matchVariables;
-    }
-    
-    string printMatchVariables() {
-        string toString = "";
-        for (Variable *variable : _matchVariables) {
-            toString +=  "symbol = " + variable->symbol() + " value = " + variable->value();
+    bool match(Term &term) {
+        if (this == &term)
+            return true;
+        List *list = dynamic_cast<List *>(&term);
+        if (list && list->isContainVar(this)) {
+            return false;
         }
-        return toString;
-    }
-    
-    bool isAssignable(Term *term, string value) {
-        for (Variable *var : _matchVariables) {
-            if (_value == var->symbol()) {
-                return true;
-            }
+        if(!_inst){
+            _inst = &term ;
+            return true;
         }
-        return _value == "" || _value == term->symbol() || _value == value;
-    }
-    
-    void addMatchVariable(Variable *variable) {
-        if (!isExistInVectors(variable) && symbol() != variable->symbol()) {
-            _matchVariables.push_back(variable);
-        }
-        for (Variable *var : *(variable->matchVariables())) {
-            if (!isExistInVectors(var) && symbol() != var->symbol()) {
-                _matchVariables.push_back(variable);
-            }
-        }
-        for (Variable *var : _matchVariables) {
-            for (Variable *variable : _matchVariables) {
-                if (!var->isExistInVectors(variable) && var->symbol() != variable->symbol()) {
-                    var->matchVariables()->push_back(variable);
-                }
-            }
-        }
+        return _inst->match(term);
     }
 private:
-    string const _symbol;
-    string _value;
-    Struct *_matchStruct = nullptr;
-    vector<Variable *> _matchVariables;
-    
-    bool isExistInVectors(Variable *variable) {
-        bool isExist = false;
-        for (Variable *var : _matchVariables) {
-            if (var->symbol() == variable->symbol()) {
-                isExist = true;
-            }
-        }
-        return isExist;
-    }
+  Term * _inst;
 };
 
 #endif

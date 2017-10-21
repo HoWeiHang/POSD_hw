@@ -1,12 +1,12 @@
 .PHONY: all clean 
 
-all: clean hw3
+all: clean hw4
 
-hw3: *.o
+hw4: *.o
 ifeq (${OS}, Windows_NT)
-	g++ -o hw3 $^ -lgtest
+	g++ -o hw4 $^ -lgtest
 else
-	g++ -o hw3 $^ -lgtest -lpthread
+	g++ -o hw4 $^ -lgtest -lpthread
 endif
 	
 *.o: *.cpp
@@ -16,5 +16,5 @@ clean:
 ifeq (${OS}, Windows_NT)
 	del *.o *.exe
 else
-	rm -f *.o hw3
+	rm -f *.o hw4
 endif

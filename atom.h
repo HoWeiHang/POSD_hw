@@ -1,17 +1,18 @@
 #ifndef ATOM_H
 #define ATOM_H
+
 #include <string>
 #include "term.h"
-
 using std::string;
 
-class Atom : public Term {
+class Atom : public Term{
 public:
-    Atom (string s, string typeName = "Atom") : Term(typeName), _symbol(s) {}
-    string symbol() { return _symbol; }
-    string value() { return _symbol; }
-private:
-    string const _symbol;
+    Atom(string s):Term(s) {}
+};
+
+class Number : public Term{
+public:
+    Number(double db):Term(db) {}
 };
 
 #endif

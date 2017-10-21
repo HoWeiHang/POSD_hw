@@ -1,28 +1,25 @@
-//
-//  Term.h
-//  POSDhomework
-//
-//  Created by Ｗillie on 10/1/17.
-//  Copyright © 2017 Ｗillie. All rights reserved.
-//
-
 #ifndef TERM_H
 #define TERM_H
+
 #include <string>
-class Variable;
+#include <sstream>
 
 using std::string;
 
 class Term {
 public:
-    Term(string typeName) : _typeName(typeName) {}
-    string typeName() { return _typeName; }
-    virtual string symbol() = 0;
-    virtual string value() = 0;
-    bool match(Term &term);
-private:
-    string const _typeName;
-    bool isVariableMatchSuccess(Term &matchTerm, Variable *variable);
+    virtual string symbol() const {return _symbol;}
+    virtual string value() const {return symbol();}
+    virtual bool match(Term & a);
+protected:
+    Term ():_symbol(""){}
+    Term (string s):_symbol(s) {}
+    Term(double db){
+        std::ostringstream strs;
+        strs << db;
+        _symbol = strs.str();
+    }
+    string _symbol;
 };
 
-#endif /* Term_h */
+#endif
