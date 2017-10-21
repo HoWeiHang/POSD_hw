@@ -2,6 +2,7 @@
 #include "atom.h"
 #include "variable.h"
 #include "struct.h"
+#include "number.h"
 
 TEST(Struct, hobby)
 {
