@@ -20,7 +20,7 @@ bool List::match(Term &term) {
     }
     if (isVariable) {
         return isContainVar(&term) ? false : term.match(*this);
-    } else {
+    } else if (list) {
         return matchList(*list);
     }
     return false;
