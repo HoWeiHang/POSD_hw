@@ -211,7 +211,7 @@ TEST(List, headAndTailMatching4) {
     vector<Term *> args = {&f, &s, &t};
     List l(args);
     ASSERT_EQ("third", l.tail()->tail()->head()->symbol());
-    ASSERT_EQ("[]", l.tail()->tail()->tail()->value()); 
+    ASSERT_EQ("[]", l.tail()->tail()->tail()->value());
 }
  
 // Given there is a empty list
