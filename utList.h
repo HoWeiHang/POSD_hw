@@ -232,13 +232,12 @@ TEST (List, emptyExecptionOfHead) {
 // Then it should throw a string: "Accessing tail in an empty list" as an exception.
 TEST (List, emptyExecptionOfTail) {
     List l;
-    ASSERT_ANY_THROW(l.tail());
-//    try {
-//        l.tail();
-//        FAIL() << "Expected std::out_of_range";
-//    } catch(std::out_of_range const &err) {
-//        ASSERT_EQ(std::string("Accessing tail in an empty list"), err.what());
-//    }
+    try {
+        l.tail();
+        FAIL() << "Accessing tail in an empty list";
+    } catch(std::out_of_range const &err) {
+        ASSERT_EQ(std::string("Accessing tail in an empty list"), err.what());
+    }
 }
 
 
