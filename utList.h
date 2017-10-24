@@ -221,7 +221,7 @@ TEST (List, emptyExecptionOfHead) {
     List l;
     try {
         l.head();
-        FAIL() << "Expected std::out_of_range";
+//        FAIL() << "Expected std::out_of_range";
     } catch(std::out_of_range const &err) {
         ASSERT_EQ(std::string("Accessing head in an empty list"), err.what());
     }
@@ -234,7 +234,7 @@ TEST (List, emptyExecptionOfTail) {
     List l;
     try {
         l.tail();
-        FAIL() << "Expected std::out_of_range";
+//        FAIL() << "Expected std::out_of_range";
     } catch(std::out_of_range const &err) {
         ASSERT_EQ(std::string("Accessing tail in an empty list"), err.what());
     }
