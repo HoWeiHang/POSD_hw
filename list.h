@@ -54,13 +54,13 @@ public:
     List (vector<Term *> const & elements):_elements(elements){}
     Term * head() const {
         if (_elements.empty()) {
-            throw std::out_of_range("Accessing head in an empty list");
+            throw string("Accessing head in an empty list");
         }
         return _elements.front();
     }
     List * tail() const {
         if (_elements.empty()) {
-            throw std::out_of_range("Accessing tail in an empty list");
+            throw string("Accessing tail in an empty list");
         }
         vector<Term *> copyElements;
         for (Term *term : _elements) {
