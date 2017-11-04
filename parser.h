@@ -60,7 +60,6 @@ public:
               _scanner.back();
           }
       }
-//        _scanner.back();
       return nullptr;
     }
 
