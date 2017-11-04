@@ -12,6 +12,8 @@
 #include "utTerm.h"
 #include "utStruct.h"
 #include "utList.h"
+#include "utScanner.h"
+#include "utParser.h"
 
 int main( int argc , char **argv )
 {

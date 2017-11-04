@@ -23,20 +23,30 @@ public:
     
     string symbol() const {
       string ret = _name.symbol() + "(";
-      std::vector<Term *>::const_iterator it = _args.begin();
-      for (; it != _args.end()-1; ++it)
-        ret += (*it)->symbol()+", ";
-      ret  += (*it)->symbol()+")";
+      if (!_args.empty()) {
+        std::vector<Term *>::const_iterator it = _args.begin();
+        for (; it != _args.end()-1; ++it)
+          ret += (*it)->symbol()+", ";
+        ret  += (*it)->symbol();
+      }
+      ret += ")";
       return ret;
     }
     
     string value() const {
+      if (_args.empty()) {
+        return symbol();
+      }
       string ret = _name.symbol() + "(";
       std::vector<Term *>::const_iterator it = _args.begin();
       for (; it != _args.end()-1; ++it)
         ret += (*it)->value()+", ";
       ret  += (*it)->value()+")";
       return ret;
+    }
+    
+    int arity() {
+        return _args.size();
     }
 private:
     Atom _name;
