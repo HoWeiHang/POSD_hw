@@ -77,7 +77,6 @@ public:
     }
 
 
-
 private:
     Scanner _scanner;
     int _currentToken;
