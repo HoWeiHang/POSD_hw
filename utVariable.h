@@ -191,4 +191,19 @@ TEST (Variable, Struct2) {
   X.match(t);
   ASSERT_EQ( "s(teddy)", Y.value());
 }
+///////////////////////////////////////////////////////
+// X=1, X=Y
+TEST (Variable, var_to_num_to_var) {
+    Variable X("X");
+    Variable Y("Y");
+    Number _1(1);
+    ASSERT_TRUE(X.match(_1));
+    ASSERT_EQ("X", X.symbol());
+    ASSERT_EQ("1", X.value());
+    ASSERT_EQ("Y", Y.symbol());
+    ASSERT_EQ("Y", Y.value());
+    ASSERT_TRUE(X.match(Y));
+    ASSERT_EQ("1", X.value());
+    ASSERT_EQ("1", Y.value());
+}
 #endif

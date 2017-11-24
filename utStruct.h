@@ -224,3 +224,27 @@ TEST(Struct, nested_struct_and_multiVariable)
   ASSERT_EQ("s1(s2(kent_beck), kent_beck)",s1.value());
 }
 
+TEST(Struct, matchWithVar)
+{
+    Variable X("X");
+    Variable Y("Y");
+    std::vector<Term *> v = {&X};
+    Struct s1(Atom("s"), v);
+    std::vector<Term *> v2 = {&Y};
+    Struct s2(Atom("s"), v2);
+    ASSERT_TRUE(s1.match(s2));
+}
+////////////////////////////////////
+TEST(Struct, matchtestttt)
+{
+    Variable X("X");
+    Variable Y("Y");
+    Number one(1);
+    std::vector<Term *> v2 = {&Y};
+    Struct s2(Atom("s"), v2);
+    ASSERT_TRUE(X.match(s2));
+    ASSERT_TRUE(Y.match(one));
+    ASSERT_EQ("s(1)", X.value());
+    ASSERT_EQ("s(1)", s2.value());
+}
+

@@ -39,20 +39,17 @@ public:
   }
 
   int tokenValue() const {return _tokenValue;}
-    
-  void back() {
-      pos--;
-  }
 
   int skipLeadingWhiteSpace() {
     for (; (buffer[pos] == ' ' || buffer[pos] == '\t') && pos<buffer.length(); ++pos);
     return position();
   }
+    
+    void clearPos() {pos = 0;}
 
   int position() const {return pos;}
 
   char currentChar() {
-      int p = pos;
     return buffer[pos];
   }
 
@@ -82,13 +79,12 @@ public:
   }
 
   char extractChar() {
-      int p1 = pos;
-      char c1 = buffer[pos];
-    char c = buffer[pos++];
-      int p = pos;
-      char c2 = buffer[pos];
-    return c;
+    return buffer[pos++];
   }
+    
+    string getBuffer() {
+        return buffer;
+    }
 
 private:
   string buffer;
