@@ -83,57 +83,12 @@ public:
         }
     }
     
-    int countNodes() {
-        int count = 0;
-        for (char &c : _scanner.getBuffer()) {
-            if (c == ';' || c == ',') {
-                count++;
-            }
-        }
-        return 3 * (count + 1) + count;
-    }
-    
-//    Node *createTree() {
-//        _scanner.clearPos();
-//        Term *term = createTerm();
-//        if (_scanner.currentChar() == '=') {
-//            Node leftTerm = Node(TERM, term, 0, 0);
-//            Operators op = operatorsWithChar(_scanner.nextToken());
-//            Node rightTerm = Node(TERM, createTerm(), 0 ,0);
-//            return new Node(op, 0, &leftTerm, &rightTerm);
-//        }
-//        return 0;
-//    }
-    
     string removeEndDot(string s) {
         return s.substr(0, s.length() - 1);
     }
     
     Node *expressionTree() {
         return _tree ? _tree : createTree();
-//        _scanner.clearPos();
-//        Node topNode(EQUALITY);
-//        string processedString = removeEndDot(_scanner.getBuffer());
-//        string leftString = split(processedString);
-//        string rightString;
-//        if (leftString != processedString) {
-//            topNode.payload = operatorsWithChar(_topPayload);
-//            Term *term = createTerm();
-//            Node *leftTerm = new Node(TERM, term, 0, 0);
-//            Operators op = operatorsWithChar(_scanner.nextToken());
-//            Node *rightTerm = new Node(TERM, createTerm(), 0 ,0);
-//            topNode.left = new Node(op, 0, leftTerm, rightTerm);
-//            rightString = _scanner.getBuffer().substr(_currentPayloadPosition + 1, processedString.length() - _currentPayloadPosition);
-//            string rigthLeftString = split(rightString);
-//            return new Node(topNode.payload, 0, topNode.left, recursionNode(rightString));
-//        } else {
-//            Term *term = createTerm();
-//            Node *leftTerm = new Node(TERM, term, 0, 0);
-//            Operators op = operatorsWithChar(_scanner.nextToken());
-//            Node *rightTerm = new Node(TERM, createTerm(), 0 ,0);
-//            return new Node(op, 0, leftTerm, rightTerm);
-//        }
-//        return 0;
     }
     
     Node *createTree() {
@@ -145,29 +100,14 @@ public:
         string rightString;
         if (leftString != processedString) {
             topNode.payload = operatorsWithChar(_topPayload);
-            Term *term = createTerm();
-            processStruct(term);
-            Node *leftTermNode = new Node(TERM, term, 0, 0);
-            if (isVariable(leftTermNode->term) && !isInNodeVariables(leftTermNode->term)) {
-                _nodeVariables.push_back(leftTermNode->term);
-            }
-            Operators op = operatorsWithChar(_scanner.nextToken());
-            Term *rightTerm = createTerm();
-            processStruct(rightTerm);
-            Node *rightTermNode = new Node(TERM, rightTerm, 0 ,0);
-            if (isVariable(rightTermNode->term) && !isInNodeVariables(rightTermNode->term)) {
-                _nodeVariables.push_back(rightTermNode->term);
-            }
-            topNode.left = new Node(op, 0, leftTermNode, rightTermNode);
+            topNode.left = createNode(*this, false, false);
             rightString = _scanner.getBuffer().substr(_currentPayloadPosition + 1, processedString.length() - _currentPayloadPosition);
             return new Node(topNode.payload, 0, topNode.left, recursionNode(rightString));
         } else {
             Term *term = createTerm();
             Node *leftTerm = new Node(TERM, term, 0, 0);
-            _nodeVariables.push_back(leftTerm->term);
             Operators op = operatorsWithChar(_scanner.nextToken());
             Node *rightTerm = new Node(TERM, createTerm(), 0 ,0);
-            _nodeVariables.push_back(rightTerm->term);
             return new Node(op, 0, leftTerm, rightTerm);
         }
         return 0;
@@ -183,39 +123,30 @@ public:
         if (leftString != rightStr) {
             Node node(EQUALITY);
             node.payload = operatorsWithChar(_topPayload);
-            Term *term = parser.createTerm();
-            processStruct(term);
-            Node *leftTermNode = new Node(TERM, isSame && getSameTerm(term) ? getSameTerm(term) : term, 0, 0);
-            if (isVariable(leftTermNode->term) && !isInNodeVariables(leftTermNode->term)) {
-                _nodeVariables.push_back(leftTermNode->term);
-            }
-            Operators op = operatorsWithChar(parser.getScanner()->nextToken());
-            Term *rightTerm = parser.createTerm();
-            processStruct(rightTerm);
-            Node *rightTermNode = new Node(TERM, isSame && getSameTerm(rightTerm) ? getSameTerm(rightTerm) : rightTerm, 0, 0);
-            if (isVariable(rightTermNode->term) && !isInNodeVariables(rightTermNode->term)) {
-                _nodeVariables.push_back(rightTermNode->term);
-            }
-            node.left = new Node(op, 0, leftTermNode, rightTermNode);
+            node.left = createNode(parser, true, isSame);
             rightString = rightStr.substr(_currentPayloadPosition + 1, rightStr.length() - _currentPayloadPosition);
             return new Node(node.payload, 0, node.left, recursionNode(rightString));
         } else {
             scanner.nextToken();
-            Term *term = parser.createTerm();
-            processStruct(term);
-            Node *leftTermNode = new Node(TERM, isSame && getSameTerm(term) ? getSameTerm(term) : term, 0, 0);
-            if (isVariable(leftTermNode->term) && !isInNodeVariables(leftTermNode->term)) {
-                _nodeVariables.push_back(leftTermNode->term);
-            }
-            Operators op = operatorsWithChar(parser.getScanner()->nextToken());
-            Term *rightTerm = parser.createTerm();
-            processStruct(rightTerm);
-            Node *rightTermNode = new Node(TERM, isSame && getSameTerm(rightTerm) ? getSameTerm(rightTerm) : rightTerm, 0 ,0);
-            _nodeVariables.push_back(rightTermNode->term);if (isVariable(rightTermNode->term) && !isInNodeVariables(rightTermNode->term)) {
-                _nodeVariables.push_back(rightTermNode->term);
-            }
-            return new Node(op, 0, leftTermNode, rightTermNode);
+            return createNode(parser, true, isSame);
         }
+    }
+    
+    Node *createNode(Parser &parser, bool isRecursion, bool isSame) {
+        Node *leftTermNode = createTermNode(parser, true, isSame);
+        Operators op = operatorsWithChar(parser.getScanner()->nextToken());
+        Node *rightTermNode = createTermNode(parser, true, isSame);
+        return new Node(op, 0, leftTermNode, rightTermNode);
+    }
+    
+    Node *createTermNode(Parser &parser, bool isRecursion, bool isSame) {
+        Term *term = parser.createTerm();
+        processStruct(term);
+        Node *node = new Node(TERM, isRecursion && isSame && getSameTerm(term) ? getSameTerm(term) : term, 0, 0);
+        if (isVariable(node->term) && !isInNodeVariables(node->term)) {
+            _nodeVariables.push_back(node->term);
+        }
+        return node;
     }
     
     bool isVariable(Term *term) {
@@ -232,14 +163,14 @@ public:
         return false;
     }
     
-    void processStruct(Term *term) {  // if struct contains Variable, save that Variable
+    void processStruct(Term *term) {
         Struct *s = dynamic_cast<Struct *>(term);
         if (s) {
             for (Term *variablePointer: *s->getVariables()) {
-                if (getSameTerm(variablePointer)) {
+                if (getSameTerm(variablePointer)) {    // sync variable pointer in Struct
                     s->getVarLocatedStruct(s)->setArgs({getSameTerm(variablePointer)});
                     variablePointer = getSameTerm(variablePointer);
-                } else if (!isInNodeVariables(variablePointer)) {
+                } else if (!isInNodeVariables(variablePointer)) {   // if struct contains Variable, save that Variable
                     _nodeVariables.push_back(variablePointer);
                 }
             }
