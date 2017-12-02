@@ -2,6 +2,7 @@
 #define NODE_H
 
 #include "term.h"
+class Iterator;
 
 enum Operators {SEMICOLON, COMMA, EQUALITY, TERM};
 static Operators operatorsWithChar(char c) {
@@ -24,9 +25,6 @@ public:
     Node *left;
     Node *right;
     
-    Node *getLeft() {return left;}
-    Node *getRight() {return right;}
-    
     bool evaluate() {
         if (payload == EQUALITY) {
             return left->term->match(*(right->term));
@@ -48,6 +46,9 @@ public:
         }
         return false;
     }
+    
+//    Iterator * createDFSIterator();
+//    Iterator * createBFSIterator();
 };
 
 #endif

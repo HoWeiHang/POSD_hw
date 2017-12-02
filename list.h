@@ -8,6 +8,8 @@
 using std::vector;
 using std::string;
 
+class Iterator;
+
 class List : public Term {
 public:
     string symbol() const {
@@ -70,7 +72,19 @@ public:
         }
         return new List(copyElements);
     }
-
+    
+    vector<Term *> *getArgs() {
+        return &_elements;
+    }
+    
+    Term * args(int index) {
+        return _elements[index];
+    }
+    
+    int arity() const {return _elements.size();}
+    Iterator *createIterator();
+    Iterator *createDFSIterator();
+    Iterator *createBFSIterator();
 private:
     vector<Term *> _elements;
     bool matchList(List &list);

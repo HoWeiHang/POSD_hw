@@ -4,8 +4,12 @@
 #include "atom.h"
 #include <vector>
 #include <string>
+#include "variable.h"
 
 using std::string;
+using std::vector;
+
+class Iterator;
 
 class Struct: public Term {
 public:
@@ -57,8 +61,8 @@ public:
         return symbol() == a.symbol();
     }
     
-    std::vector<Term *> getArgs() {
-        return _args;
+    std::vector<Term *> *getArgs() {
+        return &_args;
     }
     
     void setArgs(vector<Term *> args) {
@@ -66,10 +70,10 @@ public:
     }
     
     bool matchStruct(Struct *s) {
-        if (_args.size() != s->getArgs().size())
+        if (_args.size() != s->getArgs()->size())
             return false;
         for (int i = 0; i < _args.size(); i++) {
-            if (!(*(_args.at(i))).match((*(s->getArgs().at(i)))))
+            if (!(*(_args.at(i))).match((*(s->getArgs()->at(i)))))
                 return false;
         }
         return true;
@@ -117,6 +121,9 @@ public:
     int arity() {
         return _args.size();
     }
+    Iterator * createIterator();
+    Iterator *createDFSIterator();
+    Iterator *createBFSIterator();
 private:
     Atom _name;
     std::vector<Term *> _args;

@@ -99,16 +99,20 @@ public:
         string leftString = split(processedString);
         string rightString;
         if (leftString != processedString) {
-            topNode.payload = operatorsWithChar(_topPayload);
+            char operatorChar = _topPayload;
+            Term *operatorTerm = createOperatorTerm(operatorChar);
+            topNode.payload = operatorsWithChar(operatorChar);
             topNode.left = createNode(*this, false, false);
             rightString = _scanner.getBuffer().substr(_currentPayloadPosition + 1, processedString.length() - _currentPayloadPosition);
-            return new Node(topNode.payload, 0, topNode.left, recursionNode(rightString));
+            return new Node(topNode.payload, operatorTerm, topNode.left, recursionNode(rightString));
         } else {
             Term *term = createTerm();
             Node *leftTerm = new Node(TERM, term, 0, 0);
-            Operators op = operatorsWithChar(_scanner.nextToken());
+            char operatorChar = _scanner.nextToken();
+            Term *operatorTerm = createOperatorTerm(operatorChar);
+            Operators op = operatorsWithChar(operatorChar);
             Node *rightTerm = new Node(TERM, createTerm(), 0 ,0);
-            return new Node(op, 0, leftTerm, rightTerm);
+            return new Node(op, operatorTerm, leftTerm, rightTerm);
         }
         return 0;
     }
@@ -122,10 +126,12 @@ public:
         string rightString;
         if (leftString != rightStr) {
             Node node(EQUALITY);
-            node.payload = operatorsWithChar(_topPayload);
+            char operatorChar = _topPayload;
+            Term *operatorTerm = createOperatorTerm(operatorChar);
+            node.payload = operatorsWithChar(operatorChar);
             node.left = createNode(parser, true, isSame);
             rightString = rightStr.substr(_currentPayloadPosition + 1, rightStr.length() - _currentPayloadPosition);
-            return new Node(node.payload, 0, node.left, recursionNode(rightString));
+            return new Node(node.payload, operatorTerm, node.left, recursionNode(rightString));
         } else {
             scanner.nextToken();
             return createNode(parser, true, isSame);
@@ -134,9 +140,11 @@ public:
     
     Node *createNode(Parser &parser, bool isRecursion, bool isSame) {
         Node *leftTermNode = createTermNode(parser, true, isSame);
-        Operators op = operatorsWithChar(parser.getScanner()->nextToken());
+        char operatorChar = parser.getScanner()->nextToken();
+        Term *operatorTerm = createOperatorTerm(operatorChar);
+        Operators op = operatorsWithChar(operatorChar);
         Node *rightTermNode = createTermNode(parser, true, isSame);
-        return new Node(op, 0, leftTermNode, rightTermNode);
+        return new Node(op, operatorTerm, leftTermNode, rightTermNode);
     }
     
     Node *createTermNode(Parser &parser, bool isRecursion, bool isSame) {
@@ -147,6 +155,15 @@ public:
             _nodeVariables.push_back(node->term);
         }
         return node;
+    }
+    
+    Term *createOperatorTerm(char opChar) {
+        std::stringstream ss;
+        string operatorString;
+        char operatorChar = opChar;
+        ss << operatorChar;
+        ss >> operatorString;
+        return new Atom(operatorString);
     }
     
     bool isVariable(Term *term) {
@@ -188,15 +205,22 @@ public:
     
     string split(string s) {
         int count = 0;
-        bool illegal = false;
+        int illegalStuctCount = 0;
+        int illegalListCount = 0;
         for (char &c : s) {
             if (c == '(') {
-                illegal = true;
+                illegalStuctCount++;
             }
             if (c == ')') {
-                illegal = false;
+                illegalStuctCount--;
             }
-            if (!illegal && (c == ';' || c == ',')) {
+            if (c == '[') {
+                illegalListCount++;
+            }
+            if (c == ']') {
+                illegalListCount--;
+            }
+            if (illegalStuctCount == 0 && illegalListCount == 0 && (c == ';' || c == ',')) {
                 _topPayload = c;
                 break;
             }

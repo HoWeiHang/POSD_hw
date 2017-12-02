@@ -418,6 +418,34 @@ TEST_F(ParserTest, MatchingSuccess) {
     EXPECT_EQ("2", terms[2]->value());
     EXPECT_EQ("s(s(2))", terms[4]->value());
 }
+/**********************************
+ *  Willie HO: self Test
+ **********************************/
+TEST_F(ParserTest, MatchingSuccess1) {
+    Scanner scanner("X=s(a, 1), Y=2, Z=s(s(Q), 3).");
+    Parser parser(scanner);
+    parser.matchings();
+    vector<Term *> terms = parser.getTerms();
+    Node * et = parser.expressionTree();
+    EXPECT_TRUE(et->evaluate());
+    
+    EXPECT_EQ("s(a, 1)", terms[0]->value());
+    EXPECT_EQ("2", terms[3]->value());
+    EXPECT_EQ("s(s(Q), 3)", terms[5]->value());
+}
+
+TEST_F(ParserTest, MatchingSuccess2) {
+    Scanner scanner("X=[a, 1], Y=2, Z=s(s(Q), 3).");
+    Parser parser(scanner);
+    parser.matchings();
+    vector<Term *> terms = parser.getTerms();
+    Node * et = parser.expressionTree();
+    EXPECT_TRUE(et->evaluate());
+    
+    EXPECT_EQ("[a, 1]", terms[0]->value());
+    EXPECT_EQ("2", terms[3]->value());
+    EXPECT_EQ("s(s(Q), 3)", terms[5]->value());
+}
 
 #endif
 

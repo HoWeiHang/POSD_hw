@@ -9,8 +9,21 @@
 #include "list.h"
 #include "term.h"
 #include "variable.h"
+#include "iterator.h"
 
 #pragma mark - public
+
+Iterator *List::createIterator() {
+    return new ListIterator(this);
+}
+
+Iterator *List::createDFSIterator() {
+    return new DFSIterator(this);
+}
+
+Iterator *List::createBFSIterator() {
+    return new BFSIterator(this);
+}
 
 bool List::match(Term &term) {
     bool const isVariable = typeid(term) == typeid(Variable);

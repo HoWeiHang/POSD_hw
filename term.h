@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 
+class Iterator;
+
 using std::string;
 
 class Term {
@@ -11,6 +13,8 @@ public:
     virtual string symbol() const {return _symbol;}
     virtual string value() const {return symbol();}
     virtual bool match(Term & a);
+    virtual Iterator * createIterator();
+    virtual std::vector<Term *> *getArgs() { return 0; }
 protected:
     Term ():_symbol(""){}
     Term (string s):_symbol(s) {}
