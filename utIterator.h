@@ -86,8 +86,6 @@ TEST(iterator, structFirstDFS) {
     Struct s(Atom("s"), { &t, &Y, &two });
     Iterator<Term *> *it = s.createDFSIterator();
     it->first();
-    ASSERT_EQ("s(t(X, 1), Y, 2)", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("t(X, 1)", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("X", it->currentItem()->symbol());
@@ -114,8 +112,6 @@ TEST(iterator, structSecondDFS) {
     Struct s(Atom("s"), { &t, &Y, &l });
     Iterator<Term *> *it = s.createDFSIterator();
     it->first();
-    ASSERT_EQ("s(t(X, 1, z(3)), Y, [2, v(1, 2, 3)])", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("t(X, 1, z(3))", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("X", it->currentItem()->symbol());
@@ -152,8 +148,6 @@ TEST(iterator, structFirstBFS) {
     Struct s(Atom("s"), { &t, &Y, &two });
     Iterator<Term *> *it = s.createBFSIterator();
     it->first();
-    ASSERT_EQ("s(t(X, 1), Y, 2)", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("t(X, 1)", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("Y", it->currentItem()->symbol());
@@ -180,8 +174,6 @@ TEST(iterator, structSecondBFS) {
     Struct s(Atom("s"), { &t, &Y, &l });
     Iterator<Term *> *it = s.createBFSIterator();
     it->first();
-    ASSERT_EQ("s(t(X, 1, z(3)), Y, [2, v(1, 2, 3)])", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("t(X, 1, z(3))", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("Y", it->currentItem()->symbol());
@@ -218,8 +210,6 @@ TEST(iterator, listFirstDFS) {
     List l2({ &l, &Y, &two });
     Iterator<Term *> *it = l2.createDFSIterator();
     it->first();
-    ASSERT_EQ("[[X, 1], Y, 2]", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("[X, 1]", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("X", it->currentItem()->symbol());
@@ -246,8 +236,6 @@ TEST(iterator, listSecondDFS) {
     List l2({ &t, &Y, &l});
     Iterator<Term *> *it = l2.createDFSIterator();
     it->first();
-    ASSERT_EQ("[t(X, 1, z(3)), Y, [2, v(1, 2, 3)]]", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("t(X, 1, z(3))", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("X", it->currentItem()->symbol());
@@ -284,8 +272,6 @@ TEST(iterator, listFirstBFS) {
     List l2({ &l, &Y, &two });
     Iterator<Term *> *it = l2.createBFSIterator();
     it->first();
-    ASSERT_EQ("[[X, 1], Y, 2]", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("[X, 1]", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("Y", it->currentItem()->symbol());
@@ -312,8 +298,6 @@ TEST(iterator, listSecondBFS) {
     List l2({ &t, &Y, &l});
     Iterator<Term *> *it = l2.createBFSIterator();
     it->first();
-    ASSERT_EQ("[t(X, 1, z(3)), Y, [2, v(1, 2, 3)]]", it->currentItem()->symbol());
-    it->next();
     ASSERT_EQ("t(X, 1, z(3))", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("Y", it->currentItem()->symbol());

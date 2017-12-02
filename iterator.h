@@ -90,12 +90,12 @@ public:
     DFSIterator(T term): _term(term){}
     
     void first() {
-        _index = 0;
+        _index = 1;
         preOrder(_term);
     }
     
     T currentItem() const {
-        return _term;
+        return _terms[_index];
     }
     
     bool isDone() const {
@@ -104,7 +104,6 @@ public:
     
     void next() {
         _index++;
-        _term = _terms[_index];
     }
     
     void preOrder(T term) {
@@ -136,12 +135,12 @@ public:
     BFSIterator(T term): _term(term){}
     
     void first() {
-        _index = 0;
+        _index = 1;
         doBreadthFirst();
     }
     
     T currentItem() const {
-        return _term;
+        return _terms[_index];
     }
     
     bool isDone() const {
@@ -150,7 +149,6 @@ public:
     
     void next() {
         _index++;
-        _term = _terms[_index];
     }
     
     void doBreadthFirst() {
