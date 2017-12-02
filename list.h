@@ -73,8 +73,8 @@ public:
         return new List(copyElements);
     }
     
-    vector<Term *> *getArgs() {
-        return &_elements;
+    vector<Term *> getArgs() {
+        return _elements;
     }
     
     Term * args(int index) {

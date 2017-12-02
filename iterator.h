@@ -104,9 +104,17 @@ public:
     
     void preOrder(Term *term) {
         _terms.push_back(term);
-        if (term->getArgs()) {
-            for (Term *termInArgs: *term->getArgs()) {
-                preOrder(termInArgs);
+        if (!term->createIterator()->isDone()) {
+            Struct *s = dynamic_cast<Struct *>(term);
+            List *l = dynamic_cast<List *>(term);
+            if (s) {
+                for (Term *termInArgs: s->getArgs()) {
+                    preOrder(termInArgs);
+                }
+            } else if(l) {
+                for (Term *termInArgs: l->getArgs()) {
+                    preOrder(termInArgs);
+                }
             }
         }
     }
@@ -147,9 +155,17 @@ public:
             Term *tmpTerm = queue.front();
             queue.pop();
             _terms.push_back(tmpTerm);
-            if (tmpTerm->getArgs()) {
-                for (Term *term: *tmpTerm->getArgs()) {
-                    queue.push(term);
+            if (!tmpTerm->createIterator()->isDone()) {
+                Struct *s = dynamic_cast<Struct *>(tmpTerm);
+                List *l = dynamic_cast<List *>(tmpTerm);
+                if (s) {
+                    for (Term *term: s->getArgs()) {
+                        queue.push(term);
+                    }
+                } else if (l) {
+                    for (Term *term: l->getArgs()) {
+                        queue.push(term);
+                    }
                 }
             }
         }

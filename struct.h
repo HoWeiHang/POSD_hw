@@ -61,8 +61,8 @@ public:
         return symbol() == a.symbol();
     }
     
-    std::vector<Term *> *getArgs() {
-        return &_args;
+    std::vector<Term *> getArgs() {
+        return _args;
     }
     
     void setArgs(vector<Term *> args) {
@@ -70,10 +70,10 @@ public:
     }
     
     bool matchStruct(Struct *s) {
-        if (_args.size() != s->getArgs()->size())
+        if (_args.size() != s->getArgs().size())
             return false;
         for (int i = 0; i < _args.size(); i++) {
-            if (!(*(_args.at(i))).match((*(s->getArgs()->at(i)))))
+            if (!(*(_args.at(i))).match((*(s->getArgs().at(i)))))
                 return false;
         }
         return true;
