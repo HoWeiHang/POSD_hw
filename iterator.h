@@ -53,7 +53,7 @@ public:
     _index++;
   }
 private:
-  StructIterator(T s): _index(0), _s(dynamic_cast<Struct*>(s)) {}
+  StructIterator(Struct *s): _index(0), _s(s) {}
   int _index;
   Struct* _s;
 };
@@ -79,7 +79,7 @@ public:
     _index++;
   }
 private:
-  ListIterator(T list): _index(0), _list(dynamic_cast<List*>(list)) {}
+  ListIterator(List *list): _index(0), _list(list) {}
   int _index;
   List* _list;
 };
@@ -108,19 +108,10 @@ public:
     
     void preOrder(T term) {
         _terms.push_back(term);
-        if (!term->createIterator()->isDone()) {
-            Struct *s = dynamic_cast<Struct *>(term);
-            List *l = dynamic_cast<List *>(term);
-            if (s) {
-                for (T termInArgs: s->getArgs()) {
-                    preOrder(termInArgs);
-                }
-            } else if(l) {
-                for (T termInArgs: l->getArgs()) {
-                    preOrder(termInArgs);
-                }
-            }
-        }
+        
+        Iterator<T> *it = term->createIterator();
+        for (it->first(); !(it->isDone()); it->next())
+            preOrder(it->currentItem());
     }
     
 private:
@@ -159,19 +150,9 @@ public:
             T tmpTerm = queue.front();
             queue.pop();
             _terms.push_back(tmpTerm);
-            if (!tmpTerm->createIterator()->isDone()) {
-                Struct *s = dynamic_cast<Struct *>(tmpTerm);
-                List *l = dynamic_cast<List *>(tmpTerm);
-                if (s) {
-                    for (T term: s->getArgs()) {
-                        queue.push(term);
-                    }
-                } else if (l) {
-                    for (T term: l->getArgs()) {
-                        queue.push(term);
-                    }
-                }
-            }
+            Iterator<T> *it = tmpTerm->createIterator();
+            for (it->first(); !(it->isDone()); it->next())
+                queue.push(it->currentItem());
         }
     }
     

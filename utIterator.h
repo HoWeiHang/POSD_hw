@@ -33,9 +33,8 @@ TEST(iterator, nested_iterator) {
   Iterator<Term *> *it = s.createIterator();
   it->first();
   it->next();
-  Struct *s2 = dynamic_cast<Struct *>(it->currentItem());
 
-  Iterator<Term *> *it2 = s2->createIterator();
+  Iterator<Term *> *it2 = it->currentItem()->createIterator();
   it2->first();
   ASSERT_EQ("X", it2->currentItem()->symbol());
   ASSERT_FALSE(it2->isDone());
