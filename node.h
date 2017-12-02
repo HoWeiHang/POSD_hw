@@ -2,7 +2,7 @@
 #define NODE_H
 
 #include "term.h"
-class Iterator;
+//class Iterator;
 
 enum Operators {SEMICOLON, COMMA, EQUALITY, TERM};
 static Operators operatorsWithChar(char c) {

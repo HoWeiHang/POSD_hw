@@ -8,6 +8,7 @@
 using std::vector;
 using std::string;
 
+template <class T>
 class Iterator;
 
 class List : public Term {
@@ -82,9 +83,9 @@ public:
     }
     
     int arity() const {return _elements.size();}
-    Iterator *createIterator();
-    Iterator *createDFSIterator();
-    Iterator *createBFSIterator();
+    Iterator<Term *> *createIterator();
+    Iterator<Term *> *createDFSIterator();
+    Iterator<Term *> *createBFSIterator();
 private:
     vector<Term *> _elements;
     bool matchList(List &list);

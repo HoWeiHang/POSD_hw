@@ -8,20 +8,22 @@
 
 using std::queue;
 
+template <class T>
 class Iterator {
 public:
   virtual void first() = 0;
   virtual void next() = 0;
-  virtual Term* currentItem() const = 0;
+  virtual T currentItem() const = 0;
   virtual bool isDone() const = 0;
 };
 
-class NullIterator :public Iterator{
+template <class T>
+class NullIterator :public Iterator<T> {
 public:
-  NullIterator(Term *n) {}
+  NullIterator(T n) {}
   void first(){}
   void next(){}
-  Term * currentItem() const{
+  T currentItem() const{
       return nullptr;
   }
   bool isDone() const{
@@ -30,7 +32,8 @@ public:
 
 };
 
-class StructIterator :public Iterator {
+template <class T>
+class StructIterator :public Iterator<T> {
 public:
   friend class Struct;
 
@@ -38,7 +41,7 @@ public:
     _index = 0;
   }
 
-  Term* currentItem() const {
+  T currentItem() const {
     return _s->args(_index);
   }
 
@@ -50,12 +53,13 @@ public:
     _index++;
   }
 private:
-  StructIterator(Struct *s): _index(0), _s(s) {}
+  StructIterator(T s): _index(0), _s(dynamic_cast<Struct*>(s)) {}
   int _index;
   Struct* _s;
 };
 
-class ListIterator :public Iterator {
+template <class T>
+class ListIterator :public Iterator<T> {
 public:
   friend class List;
 
@@ -63,7 +67,7 @@ public:
     _index = 0;
   }
 
-  Term* currentItem() const {
+  T currentItem() const {
     return _list->args(_index);
   }
 
@@ -75,21 +79,22 @@ public:
     _index++;
   }
 private:
-  ListIterator(List *list): _index(0), _list(list) {}
+  ListIterator(T list): _index(0), _list(dynamic_cast<List*>(list)) {}
   int _index;
   List* _list;
 };
 
-class DFSIterator :public Iterator {
+template <class T>
+class DFSIterator :public Iterator<T> {
 public:
-    DFSIterator(Term *term): _term(term){}
+    DFSIterator(T term): _term(term){}
     
     void first() {
         _index = 0;
         preOrder(_term);
     }
     
-    Term* currentItem() const {
+    T currentItem() const {
         return _term;
     }
     
@@ -102,17 +107,17 @@ public:
         _term = _terms[_index];
     }
     
-    void preOrder(Term *term) {
+    void preOrder(T term) {
         _terms.push_back(term);
         if (!term->createIterator()->isDone()) {
             Struct *s = dynamic_cast<Struct *>(term);
             List *l = dynamic_cast<List *>(term);
             if (s) {
-                for (Term *termInArgs: s->getArgs()) {
+                for (T termInArgs: s->getArgs()) {
                     preOrder(termInArgs);
                 }
             } else if(l) {
-                for (Term *termInArgs: l->getArgs()) {
+                for (T termInArgs: l->getArgs()) {
                     preOrder(termInArgs);
                 }
             }
@@ -121,20 +126,21 @@ public:
     
 private:
     int _index;
-    Term *_term;
-    std::vector<Term *> _terms;
+    T _term;
+    std::vector<T> _terms;
 };
 
-class BFSIterator :public Iterator {
+template <class T>
+class BFSIterator :public Iterator<T> {
 public:
-    BFSIterator(Term *term): _term(term){}
+    BFSIterator(T term): _term(term){}
     
     void first() {
         _index = 0;
         doBreadthFirst();
     }
     
-    Term *currentItem() const {
+    T currentItem() const {
         return _term;
     }
     
@@ -148,22 +154,22 @@ public:
     }
     
     void doBreadthFirst() {
-        queue<Term *> queue;
+        queue<T> queue;
         queue.push(_term);
         while (!queue.empty())
         {
-            Term *tmpTerm = queue.front();
+            T tmpTerm = queue.front();
             queue.pop();
             _terms.push_back(tmpTerm);
             if (!tmpTerm->createIterator()->isDone()) {
                 Struct *s = dynamic_cast<Struct *>(tmpTerm);
                 List *l = dynamic_cast<List *>(tmpTerm);
                 if (s) {
-                    for (Term *term: s->getArgs()) {
+                    for (T term: s->getArgs()) {
                         queue.push(term);
                     }
                 } else if (l) {
-                    for (Term *term: l->getArgs()) {
+                    for (T term: l->getArgs()) {
                         queue.push(term);
                     }
                 }
@@ -173,8 +179,8 @@ public:
     
 private:
     int _index;
-    Term *_term;
-    std::vector<Term *> _terms;
+    T _term;
+    std::vector<T> _terms;
 };
 
 /*****************************************

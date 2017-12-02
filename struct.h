@@ -9,6 +9,7 @@
 using std::string;
 using std::vector;
 
+template <class T>
 class Iterator;
 
 class Struct: public Term {
@@ -121,9 +122,9 @@ public:
     int arity() {
         return _args.size();
     }
-    Iterator * createIterator();
-    Iterator *createDFSIterator();
-    Iterator *createBFSIterator();
+    Iterator<Term *> *createIterator();
+    Iterator<Term *> *createDFSIterator();
+    Iterator<Term *> *createBFSIterator();
 private:
     Atom _name;
     std::vector<Term *> _args;
