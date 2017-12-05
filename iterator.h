@@ -99,7 +99,7 @@ public:
     }
     
     bool isDone() const {
-        return _index == _terms.size() - 1;
+        return _index == _terms.size();
     }
     
     void next() {
@@ -135,7 +135,7 @@ public:
     }
     
     bool isDone() const {
-        return _index == _terms.size() - 1;
+        return _index == _terms.size();
     }
     
     void next() {

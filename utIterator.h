@@ -94,6 +94,7 @@ TEST(iterator, structFirstDFS) {
     ASSERT_EQ("Y", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("2", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -134,6 +135,7 @@ TEST(iterator, structSecondDFS) {
     ASSERT_EQ("2", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("3", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -156,6 +158,7 @@ TEST(iterator, structFirstBFS) {
     ASSERT_EQ("X", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("1", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -196,6 +199,7 @@ TEST(iterator, structSecondBFS) {
     ASSERT_EQ("2", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("3", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -218,6 +222,7 @@ TEST(iterator, listFirstDFS) {
     ASSERT_EQ("Y", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("2", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -258,6 +263,7 @@ TEST(iterator, listSecondDFS) {
     ASSERT_EQ("2", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("3", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -280,6 +286,7 @@ TEST(iterator, listFirstBFS) {
     ASSERT_EQ("X", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("1", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
@@ -320,6 +327,7 @@ TEST(iterator, listSecondBFS) {
     ASSERT_EQ("2", it->currentItem()->symbol());
     it->next();
     ASSERT_EQ("3", it->currentItem()->symbol());
+    it->next();
     ASSERT_TRUE(it->isDone());
 }
 
