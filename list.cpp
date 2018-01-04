@@ -1,78 +1,94 @@
-//
-//  list.cpp
-//  testPOSD
-//
-//  Created by Willie on 2017/10/21.
-//  Copyright © 2017年 Willie. All rights reserved.
-//
-
+#include <iostream>
 #include "list.h"
-#include "term.h"
-#include "variable.h"
 #include "iterator.h"
 
-#pragma mark - public
+List::List() { }
 
-Iterator<Term *> *List::createIterator() {
-    return new ListIterator<Term *>(this);
+List::List(vector<Term *> const & elements) : _elements(elements) { }
+
+Term * List::args(int index) const {
+    return _elements[index];
 }
 
-Iterator<Term *> *List::createDFSIterator() {
-    return new DFSIterator<Term *>(this);
+string List::symbol() const {
+    string returnString = "[";
+    for (int i=0; i<((int)_elements.size()-1); i++) {
+        returnString += args(i)->symbol() + ", ";
+    }
+    if (_elements.size())
+        returnString += args((int)_elements.size()-1) -> symbol();
+    returnString += "]";
+    
+    return returnString;
 }
 
-Iterator<Term *> *List::createBFSIterator() {
-    return new BFSIterator<Term *>(this);
+string List::value() const {
+    string returnString = "[";
+    for (int i=0; i<((int)_elements.size()-1); i++) {
+        returnString += args(i)->value() + ", ";
+    }
+    if (_elements.size())
+        returnString += args((int)_elements.size()-1) -> value();
+    returnString += "]";
+    
+    return returnString;
 }
 
 bool List::match(Term &term) {
-    bool const isVariable = typeid(term) == typeid(Variable);
-    List *list = dynamic_cast<List *>(&term);
-    if (symbol() == term.symbol()) {
+    List *listPtr = dynamic_cast<List *>(&term);
+    // term's type is List
+    if (listPtr) {
+        if (_elements.size() != listPtr->_elements.size())
+            return false;
+        for (int i=0; i<_elements.size(); i++) {
+            if(!args(i)->match(*(listPtr->args(i))))
+                return false;
+        }
         return true;
     }
-    if (isVariable) {
-        return isContainVar(&term) ? false : term.match(*this);
-    } else if (list) {
-        return matchList(*list);
-    }
+    
+    Variable *variable = dynamic_cast<Variable *> (&term);
+    // term's type is Variable
+    if(variable)
+        return variable->match(term);
+    
+    // term's type isn't Variable or List
     return false;
 }
 
-Term *List::getVariable() {
-    for (Term *element : _elements) {
-        if (typeid(*element) == typeid(Variable)) {
-            return element;
-        }
-    }
-    return 0;
+Term * List::head() const {
+    if (_elements.empty())
+        throw string("Accessing head in an empty list");
+    else
+        return args(0);
 }
 
-bool List::isContainVar(Term *term) const {
-    if (term) {
-        for (Term *element : _elements) {
-            if (element == term) {
-                return true;
-            }
-        }
-    } else {
-        for (Term *element : _elements) {
-            if (typeid(*element) == typeid(Variable)) {
-                return true;
-            }
-        }
+List * List::tail() const {
+    if (_elements.empty())
+        throw string("Accessing tail in an empty list");
+    else {
+        vector<Term *> tailListElements(++(_elements.begin()), _elements.end());
+        List * tailListPtr = new List(tailListElements);
+        
+        return tailListPtr;
     }
-    return false;
 }
 
-#pragma mark - private
+int List::arity() {
+    return static_cast<int>(_elements.size());
+}
 
-bool List::matchList(List &list) {
-    if (_elements.size() != list.elements().size())
-        return false;
-    for (int i = 0; i < _elements.size(); i++) {
-        if (!(*(_elements.at(i))).match((*(list.elements().at(i)))))
-            return false;
-    }
-    return true;
+Iterator<Term *> * List::createIterator()
+{
+    return new ListIterator<Term *>(this);
+}
+
+Iterator<Term *> * List::createDFSIterator()
+{
+    return new DFSIterator<Term *>(this);
+}
+
+Iterator<Term *> * List::createBFSIterator()
+{
+    return new BFSIterator<Term *>(this);
 }

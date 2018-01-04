@@ -1,13 +1,21 @@
 #ifndef NUMBER_H
 #define NUMBER_H
 
-#include <string>
 #include "term.h"
-using std::string;
+#include "variable.h"
+#include "iterator.h"
+#include <sstream>
 
-class Number : public Term{
+class Number : public Term {
+private:
+    string _symbol;
+    
 public:
-    Number(double db):Term(db) {}
+    Number (double);
+    string symbol() const;
+    string value() const;
+    bool match(Term &);
 };
 
-#endif
+
+#endif /* number_h */

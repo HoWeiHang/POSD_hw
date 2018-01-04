@@ -1,19 +1,27 @@
-//
-//  node.cpp
-//  1123POSD
-//
-//  Created by Willie on 2017/12/1.
-//  Copyright © 2017年 Willie. All rights reserved.
-//
-
 #include "node.h"
 #include "iterator.h"
 
-//Iterator * Node::createDFSIterator() {
-//    return new DFSIterator(this);
-//}
-//
-//Iterator * Node::createBFSIterator() {
-//    return new BFSIterator(this);
-//}
-
+bool Node::evaluate() {
+    
+    switch (payload) {
+        case EQUALITY:
+            return (left->term) -> match(*(right->term));
+            break;
+            
+        case COMMA:
+            return (left->evaluate()) && (right->evaluate());
+            break;
+            
+        case SEMICOLON:
+        {
+            bool leftMatchingResult = left->evaluate();
+            bool rightMatchingResult = right->evaluate();
+            return leftMatchingResult || rightMatchingResult;
+            
+        }
+            break;
+            
+        default:
+            return false;
+    }
+}
